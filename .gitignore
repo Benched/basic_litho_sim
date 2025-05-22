@@ -1,0 +1,17 @@
+.ipynb_checkpoints/
+.pytest_cache/
+dist/
+build/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.venv/
+*.egg-info/
+.litho_sim_venv/
+.jupyterlite.doit.db
+
+# OS junk
+.DS_Store
+Thumbs.db

@@ -1,0 +1,57 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2025-05-22T21:11:50.765254Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2025-05-03T21:32:41.695162Z",
+      "mimetype": "text/x-python",
+      "name": "test_fourier.py",
+      "path": "test/test_fourier.py",
+      "size": 6676,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2025-05-22T21:11:50.767498Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2025-03-10T11:49:53.387817Z",
+      "mimetype": "text/x-python",
+      "name": "test_shapes_and_sampling_utils.py",
+      "path": "test/test_shapes_and_sampling_utils.py",
+      "size": 8228,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2025-05-22T21:11:50.762758Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2025-03-09T20:39:04.889099Z",
+      "mimetype": "text/x-python",
+      "name": "__init__.py",
+      "path": "test/__init__.py",
+      "size": 0,
+      "type": "file",
+      "writable": true
+    }
+  ],
+  "created": "2025-05-22T21:11:50.762249Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2025-05-22T21:11:50.767498Z",
+  "mimetype": null,
+  "name": "test",
+  "path": "test",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}
