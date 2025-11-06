@@ -2,7 +2,7 @@ import numpy as np
 import xarray as xr
 
 def to_da(x, values, xmin=None, xmax=None, endpoint=False):
-    da = xr.DataArray(values, dims=("x"), coords={"x": x})
+    da = xr.DataArray(values, dims=("x",), coords={"x": x})
 
     if xmin is None:
         xmin = min(x)
@@ -45,8 +45,8 @@ def sample_fn_2d(fn, nx, ny, xmin, xmax, ymin, ymax, as_da=True, endpoint=False)
     """
     x = np.linspace(xmin, xmax, nx, endpoint=endpoint)
     y = np.linspace(ymin, ymax, ny, endpoint=endpoint)
-    dx = (xmax - xmin) / (nx - 1)
-    dy = (ymax - ymin) / (ny - 1)
+    dx = (xmax - xmin) / nx
+    dy = (ymax - ymin) / ny
 
     X, Y = np.meshgrid(x, y, indexing="ij")  # shape (nx, ny)
     Z = np.vectorize(fn)(X, Y)

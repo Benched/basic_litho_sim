@@ -140,47 +140,35 @@ def test_2d_tophat_fourier_transform(nx, ny, x0, x1, y0, y1, xmin, xmax, ymin, y
         f"Max relative error = {max_relative_error:.2e} exceeds tolerance {rel_tol}"
     )
 
-#@pytest.mark.parametrize(
-#    "nx, ny, xmin, xmax, ymin, ymax, tolerance",
-#    [
-#        (512, 512, -50, 50, -50, 50, 0.01),
-#        # Add more cases if desired
-#    ]
-#)
-#def test_2d_quadratic_decay_fourier(nx, ny, xmin, xmax, ymin, ymax, tolerance):
-#    """
-#    Test that the 2D Fourier transform of f(x, y) = 1 / (1 + x² + y²)
-#    matches its known analytic FT: π * exp(-2π * sqrt(kx² + ky²))
-#
-#    The function is sampled over a large domain and compared pointwise
-#    to the theoretical transform.
-#    """
-#    # Sample the function
-#    da = shapes.quadratic_decay_2d_da(nx, ny, xmin, xmax, ymin, ymax)
-#    ft_result = fourier.ft2d(da)  # Should return xarray.DataArray with coords "x", "y"
-#
-#    # Frequency grids
-#    kx = ft_result.coords["x"].values
-#    ky = ft_result.coords["y"].values
-#    KX, KY = np.meshgrid(kx, ky, indexing="ij")
-#    kr = np.sqrt(KX**2 + KY**2)
-#
-#    # Analytical FT
-#    expected = np.pi * np.exp(-2 * np.pi * kr)
-#
-#    # Compute error
-#    max_error = np.max(np.abs(ft_result.values - expected))
-#
-#    assert max_error < tolerance, (
-#        f"2D Fourier transform mismatch: max error {max_error:.5e} exceeds tolerance {tolerance}"
-#    )
 
+@pytest.mark.parametrize(
+    "nx, ny, xmin, xmax, ymin, ymax, sigma_x, sigma_y, normalization",
+    [
+        (128, 128, -10, 10, -10, 10, 2.0, 2.0, 1.0),
+    ],
+)
+def test_ft_gaussian_2d_accuracy(nx, ny, xmin, xmax, ymin, ymax, sigma_x, sigma_y, normalization):
+    """Compare numeric 2D FT of a Gaussian with the analytic expression."""
+    # --- sample and numeric FT ---
+    gaussian_2d_sample = shapes.gaussian_2d_da(
+        nx, ny, xmin, xmax, ymin, ymax,
+        sigma_x=sigma_x, sigma_y=sigma_y, normalization=normalization
+    )
+    ft_gaussian_2d_numerical = fourier.ft2d(gaussian_2d_sample)
 
-# @pytest.mark.parametrize("n", [10, 11])
-# def test_block_position_corresponds_symmetric_function(n, epsilon=0.3):
-#    """Verify for both even and odd n that the Fourier transform has no imaginary component."""
-#    f = block(n, epsilon)
-#    ft, _ = fourier(f)
-#    assert (
-#        np.max(np.abs(ft - np.real(ft))) < 1e-20
-#    ), f"(n = {n}): Fourier transform of what is supposed to be an even function has an imaginary component."
+    # --- theoretical FT ---
+    kx = ft_gaussian_2d_numerical.coords["x"].values
+    ky = ft_gaussian_2d_numerical.coords["y"].values
+    ft_gaussian_2d_theory = shapes.ft_gaussian_2d(
+        kx, ky,
+        sigma_x=sigma_x, sigma_y=sigma_y,
+        normalization=normalization,
+        as_da=True,
+    )
+
+    # --- compute relative error ---
+    error = np.abs(ft_gaussian_2d_numerical.values - ft_gaussian_2d_theory)
+    max_relative_error = np.max(error) / np.abs(ft_gaussian_2d_theory).max()
+
+    # --- assert reasonable agreement ---
+    assert max_relative_error < 1e-5, f"Max relative error too high: {max_relative_error:.2e}"

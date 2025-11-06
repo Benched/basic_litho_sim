@@ -152,7 +152,7 @@ def assert_grid_metadata_correct(da, nx, ny, xmin, xmax, ymin, ymax, atol=1e-10)
     if "ny" in da.attrs:
         assert da.attrs["ny"] == ny, f"ny attr mismatch: expected {ny}, got {da.attrs['ny']}"
 
-def check_2d_shapes_da_metadata(
+def check_2d_shapes_da_metadata( # Helper function
     shape_fn,
     nx, ny,
     xmin, xmax, ymin, ymax,
@@ -238,4 +238,65 @@ def test_shape_matches_analytic(shape_fn, shape_args, shape_kwargs, analytic_fn)
         f"Shape kwargs: {shape_kwargs}"
     )
 
+@pytest.mark.parametrize(
+    "nx, ny, x0, x1, xmin, xmax, ymin, ymax, y0, y1",
+    [
+        (56, 34, 0.1, 0.7, -1, 1, -3, 3, -2, 4),
+    ],
+)
+def test_sample_2d_dx_dy_consistency(nx, ny, x0, x1, xmin, xmax, ymin, ymax, y0, y1):
+    """Verify that dx, dy in attrs match actual coordinate spacing for a 2D top-hat sample."""
+    sample_2d = shapes.top_hat_2d_da(nx, ny, x0, x1, xmin, xmax, ymin, ymax, y0, y1)
 
+    dx_attr = sample_2d.attrs["dx"]
+    dy_attr = sample_2d.attrs["dy"]
+
+    # Check coordinate differences vs stored dx, dy
+    assert np.allclose(np.diff(sample_2d.x), dx_attr, atol=1e-15), \
+        f"dx mismatch: expected {dx_attr}, got {np.diff(sample_2d.x).mean()}"
+    assert np.allclose(np.diff(sample_2d.y), dy_attr, atol=1e-15), \
+        f"dy mismatch: expected {dy_attr}, got {np.diff(sample_2d.y).mean()}"
+
+def test_reduce_density():
+    da = xr.DataArray(
+        [[0, 1, 2, 3],
+         [4, 5, 6, 7],
+         [8, 9, 10, 11]],
+        coords={"x": [0, 1, 2, 3], "y": [-1, 0, 1]},
+        dims=("y", "x")
+    )
+    expected = xr.DataArray(
+        [[0, 2],
+         [8, 10]],
+        coords={"x": [0, 2], "y": [-1, 1]},
+        dims=("y", "x")
+    )
+    result = shapes.reduce_density(da, 2, 2)
+    assert result.equals(expected), "Reduced DataArray does not match expected downsampled result"
+    assert shapes.reduce_density(da, 1, 1).equals(da), "Reduction by 1 should return the original DataArray"
+
+def test_apply_xy_lims_to_da():
+    da = xr.DataArray(
+        [[0, 1, 2, 3],
+         [4, 5, 6, 7],
+         [8, 9, 10, 11]],
+        coords={"x": [0, 1, 2, 3], "y": [-1, 0, 1]},
+        dims=("y", "x")
+    )
+    expected_y = xr.DataArray(
+        [[1, 2],
+         [5, 6],
+         [9, 10]],
+        coords={"x": [1, 2], "y": [-1, 0, 1]},
+        dims=("y", "x")
+    )
+    expected_x = xr.DataArray(
+        [
+         [4, 5, 6, 7],
+        ],
+        coords={"x": [0, 1, 2, 3], "y": [0]},
+        dims=("y", "x")
+    )
+    assert shapes.apply_xy_lims_to_da(da, [1, 2], [-1, 1]).equals(expected_y), "apply_xy_lims_to_da() failed for simultaneous x/y limits"
+    assert shapes.apply_xy_lims_to_da(da, [1, 2], None).equals(expected_y), "x-only limit should include all y and match combined x/y result"
+    assert shapes.apply_xy_lims_to_da(da, None, [-0.5, 0.5]).equals(expected_x),  "y-only limit around zero should yield only the middle row (y=0)"

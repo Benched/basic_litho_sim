@@ -1,0 +1,9 @@
+pip>=24.0
+marimo>=0.3.0
+numpy>=1.26
+xarray>=2024.1.0
+pandas>=2.2
+matplotlib
+plotly
+sympy
+pytest

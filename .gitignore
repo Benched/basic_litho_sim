@@ -3,6 +3,8 @@
 dist/
 build/
 *.log
+__marimo__
+content/public/
 
 # Python
 __pycache__/
@@ -12,6 +14,6 @@ __pycache__/
 .litho_sim_venv/
 .jupyterlite.doit.db
 
-# OS junk
+# OS
 .DS_Store
 Thumbs.db

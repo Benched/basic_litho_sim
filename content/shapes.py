@@ -1,6 +1,5 @@
 import numpy as np
 import xarray as xr
-import shapes
 from utils import sample_fn,sample_fn_2d
 
 
@@ -29,6 +28,20 @@ def tophat_fn_2d(x0, x1, y0, y1):
 
 def gaussian_fn_2d(x, y):
     return np.exp(-np.pi * (x**2 + y**2))
+
+def gaussian_fn_2d(x, y, sigma_x=1.0, sigma_y=1.0, normalization=1.0):
+    """2D Gaussian with independent σx, σy, normalized so the integral equals `normalization`.
+
+    x, y : array-like
+        Input coordinates.
+    sigma_x, sigma_y : float
+        Standard deviations along x and y.
+    normalization : float, optional
+        Desired total integral of the Gaussian.
+    """
+    prefactor = normalization / (2.0 * np.pi * sigma_x * sigma_y)
+    exponent = -0.5 * ((x / sigma_x)**2 + (y / sigma_y)**2)
+    return prefactor * np.exp(exponent)
 
 def circular_tophat_fn_2d(radius, center_x=0.0, center_y=0.0):
     """
@@ -102,8 +115,10 @@ def quadratic_decay_2d_da(nx, ny, xmin, xmax, ymin, ymax):
         return 1 / (1 + x**2 + y**2)
     return sample_fn_2d(f, nx, ny, xmin, xmax, ymin, ymax, as_da=True)
 
-def gaussian_2d_da(nx, ny, x0, x1, y0, y1, xmin, xmax, ymin, ymax):
-    return sample_fn_2d(gaussian_fn_2d, nx, ny, xmin, xmax, ymin, ymax, as_da=True)
+def gaussian_2d_da(nx, ny, xmin, xmax, ymin, ymax, sigma_x=1, sigma_y=1, normalization=1):
+    def fn(x, y):
+        return  gaussian_fn_2d(x, y, sigma_x=sigma_x, sigma_y=sigma_y, normalization=normalization)
+    return sample_fn_2d(fn, nx, ny, xmin, xmax, ymin, ymax, as_da=True)
 
 
 def ft_tophat(k0, epsilon0, epsilon1):
@@ -140,3 +155,54 @@ def ft_tophat_2d(k, l, epsilon0, epsilon1, delta0, delta1):
     fx = ft_tophat(k, epsilon0, epsilon1)[:, None]  # shape (Nx, 1)
     fy = ft_tophat(l, delta0, delta1)[None, :]      # shape (1, Ny)
     return xr.DataArray(fx * fy, dims=('x', 'y'), coords={'x':k, 'y':l})
+
+def ft_gaussian_2d(kx, ky, sigma_x=1, sigma_y=1, normalization=1.0, x0=0.0, y0=0.0, as_da=True):
+    """Analytic 2D Fourier transform of a normalized Gaussian.
+
+    Parameters
+    ----------
+    kx, ky : array-like
+        Frequency coordinates (in 1/units of x and y).
+    sigma_x, sigma_y : float
+        Standard deviations of the Gaussian.
+    normalization : float, optional
+        Integral (area) of the Gaussian. Default 1.0.
+    x0, y0 : float, optional
+        Spatial center of the Gaussian (adds a phase shift).
+    as_da : bool, optional
+        If True, return an xarray.DataArray with coords and dims ["kx", "ky"].
+
+    Returns
+    -------
+    ndarray or xarray.DataArray
+        Theoretical Fourier transform values.
+    """
+    KX, KY = np.meshgrid(kx, ky, indexing="ij")
+
+    # Theoretical FT
+    phase = np.exp(-2j * np.pi * (KX * x0 + KY * y0))
+    amplitude = normalization * np.exp(-2 * (np.pi**2) * (sigma_x**2 * KX**2 + sigma_y**2 * KY**2))
+    FT = amplitude * phase
+
+    if as_da:
+        return xr.DataArray(FT, coords={"x": kx, "y": ky}, dims=("x", "y"))
+    return FT
+
+def apply_xy_lims_to_da(da:xr.DataArray, xlim=None, ylim=None):
+    if xlim is not None:
+        da = da.sel(x=slice(*xlim))
+    if ylim is not None:
+        da = da.sel(y=slice(*ylim))
+    return da
+
+def reduce_density(da:xr.DataArray, x_reduction = 1, y_reduction = 1):
+    return da.isel(
+        x=slice(None, None, x_reduction),
+        y=slice(None, None, y_reduction)
+    )
+
+def zero_outside_radius(da:xr.DataArray, radius:float, center_x=0.0, center_y=0.0):
+    X, Y = np.meshgrid(da.coords["x"].values, da.coords["y"].values, indexing="ij")
+    mask = ((X - center_x)**2 + (Y - center_y)**2) <= radius**2
+    da_masked = da.where(mask, other=0.0)
+    return da_masked
