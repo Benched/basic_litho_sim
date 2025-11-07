@@ -142,7 +142,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    fit_order = mo.ui.slider(start=0, stop=120, step=1, value=49, show_value=True, debounce=True)
+    fit_order = mo.ui.slider(start=1, stop=120, step=1, value=49, show_value=True, debounce=True)
     return (fit_order,)
 
 

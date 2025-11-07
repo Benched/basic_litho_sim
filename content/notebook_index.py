@@ -26,6 +26,7 @@ def _(mo):
         * Transistors in semiconductors (work in progress)
     2. [Basic examples of fourier optics package](./notebook_optics_basics.html)
         * Shows of some of the capabilities of the Fourier optics package
+    3. [First look at fourier optics on a grating usecase](./notebook_zernikes_and_gratings.html)
     """
     )
     return
