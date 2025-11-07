@@ -21,6 +21,8 @@ How to start working?
 To create or edit a marimo notebook;
 	marimo edit <path_of_notebook>
 
+to make the wheel:
+	python -m build --wheel
 
 to test; 
 	pip install pytest

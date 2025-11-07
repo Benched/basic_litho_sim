@@ -1,6 +1,7 @@
 import numpy as np
 import xarray as xr
-from utils import sample_fn,sample_fn_2d
+import matplotlib
+from .utils import sample_fn,sample_fn_2d
 
 
 def tophat_fn(x0, x1):

@@ -3,7 +3,7 @@ import numpy as np
 import xarray as xr
 import math
 from functools import cached_property
-import plot
+from . import plot
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
