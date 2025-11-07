@@ -326,7 +326,7 @@ def _(lines_imaged, plt):
 
 @app.cell
 def _(lines_imaged, plot, shapes):
-    plot.real_surface(shapes.reduce_density(abs(lines_imaged), 2))
+    plot.real_surface(shapes.reduce_density(abs(lines_imaged), 2, 2))
     return
 
 
@@ -348,7 +348,7 @@ def _(fourier_optics, lines, plot, shapes):
             abs(
                 fourier_optics(lines, radius=.2)
             ),
-        2, 2)
+        3, 3)
     )
     return
 
