@@ -225,7 +225,7 @@ def _(zernike_sliders):
         items = list(d.items())
         total = len(items)
         base, extra = divmod(total, ncols)
-    
+
         columns = []
         start = 0
         for i in range(ncols):
@@ -342,11 +342,13 @@ def _(mo):
 
 
 @app.cell
-def _(fourier_optics, lines, plot):
+def _(fourier_optics, lines, plot, shapes):
     plot.real_surface(
-        abs(
-            fourier_optics(lines, radius=.2)
-        )
+        shapes.reduce_density(
+            abs(
+                fourier_optics(lines, radius=.2)
+            ),
+        2, 2)
     )
     return
 
