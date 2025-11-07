@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.17.7"
+__generated_with = "0.13.11"
 app = marimo.App(width="medium")
 
 
@@ -14,7 +14,8 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     # Chip producton process
 
     ### The purpose of these pages
@@ -33,46 +34,15 @@ def _(mo):
     After that, the following notebooks will zoom in on the optics: what are the challanges in using light to etch patterns smaller than bacteria onto silicon, and why some of the machines that do this cost hundreds of billions of euros.
 
     If you’re mainly here for the optics, you can skip ahead past the fabrication overview
-    """)
+    """
+    )
     return
-
-
-app._unparsable_cell(
-    r"""
-    ### plan for this notebook
-    1. Chips in daily life.
-    2. What does a chip do?
-        - logic 
-        - Binary, math, logical operations
-        - Memory
-    3. How does that work?
-        - memory
-        - and, or, addition
-        - transistor
-        - silicon / semiconductor
-    4. Who makes them?
-        - Chip design
-        - Chip fabrication
-    5. What are the main steps
-        - Litho: Coat, bake, exposure, develop
-        - Etch, Deposit, implant, grind
-        - repeat many times.
-        - package
-    6. So optics...
-        - Key role in mass production of small patterns
-        - Rayleigh criterion
-        - Aberrations
-
-
-
-    """,
-    name="_"
-)
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     # What Does a Chip Do?
 
     Chips are everywhere in modern life. Mobile phones and laptops are the obvious examples, but even everyday objects like washing machines, cameras, and cars depend on them.
@@ -90,7 +60,8 @@ def _(mo):
     ### The language and logic of chips
     Most chips share a common internal language: binary — a language of zeros and ones.
     Each “bit” can be either 0 (off) or 1 (on). With only two symbols, binary can represent anything: numbers, letters, colors, even videos. In the upcomming sections we briefly look into binary as wel as the operations we can do with it that correspond to real-world tasks.
-    """)
+    """
+    )
     return
 
 
@@ -103,15 +74,14 @@ def _():
 
 @app.cell
 def _(binary_a, mo):
-    mo.md(f"""
-    One example of using binary is the letter 'a' as used in a notebook like this one. In binary it is represented as: {binary_a}
-    """)
+    mo.md(f"""One example of using binary is the letter 'a' as used in a notebook like this one. In binary it is represented as: {binary_a}""")
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     Counting in binary follows a simple pattern:
 
     | Decimal |	Binary | power of two |
@@ -137,7 +107,8 @@ def _(mo):
     By combining many of these switches, we can build circuits that add numbers, store information, and make decisions — everything that forms the foundation of modern computing.
 
     Below you can try it out and convert numbers to binary and vice versa.
-    """)
+    """
+    )
     return
 
 
@@ -196,19 +167,22 @@ def _(binary_text_input, mo, validate_binary):
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     Now that we have binary as a language, we still need to do something with it for a chip to be useful. It turns out we can reduce all the complex operations we want to perform to a couple of very simple ones, such as the AND, OR and XOR operations:
 
     - given two bits of input the AND operator gives an output that is 1 if the first bit AND the second bit is 1, otherwise the outpur is zero.
     - given two bits of input the OR operator gives an out that is 1 is the first bit OR the second bit is 1, where both bits being 1 also counts. However, if both bits are 0 the output will be 0.
     - Finally the XOR (eXclusive OR) gives 1 as an output if the first bit is 1 or the second bit is 1, but not both. A common table format for this is:
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     ### AND operator
     | input 1 | input 2 | output |
     |---|---|---|
@@ -216,7 +190,8 @@ def _(mo):
     | 0 | 1 | 0 |
     | 1 | 0 | 0 |
     | 1 | 1 | 1 |
-    """)
+    """
+    )
     return
 
 
@@ -236,7 +211,8 @@ app._unparsable_cell(
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     ### XOR operator
     | input 1 | input 2 | output |
     |---|---|---|
@@ -244,7 +220,8 @@ def _(mo):
     | 0 | 1 | 1 |
     | 1 | 0 | 1 |
     | 1 | 1 | 0 |
-    """)
+    """
+    )
     return
 
 
@@ -271,9 +248,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(r"""
-    Here is a visualization with two switches and the logical operator controlling the lightbulb. Switch closed means it is a 1, switch open means it is a zero
-    """)
+    mo.md(r"""Here is a visualization with two switches and the logical operator controlling the lightbulb. Switch closed means it is a 1, switch open means it is a zero""")
     return
 
 
@@ -336,10 +311,12 @@ def _(A, B, logic_output, mo, operation, patches, plt):
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     ### NOT
     In the discussion above one very important, and somewhat counterintuitive, operator is missing. The NOT:
-    """)
+    """
+    )
     return
 
 
@@ -431,20 +408,23 @@ def _(inverter_diagram, mo, switch):
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     The NOT operator inverts the signal, given a 0 it gives a 1, and given a 1 it gives 0 as output. The truthtable is as follows:
 
     | Input bit | output bit |
     |---|---|
     | 0 | 1 |
     | 1 | 0 |
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     The operators above are so useful beccause you can build any *boolean operator*. That means that for any number of bits, we can get any binary outcome by combining these operators.
     In fact, AND and NOT are already enough. The OR and XOR operators we can make out of AND and NOT:
 
@@ -453,13 +433,15 @@ def _(mo):
     and
 
     A XOR B = (NOT (A AND B)) AND (NOT ((NOT A) AND (NOT B)))
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     One way to check that this works is by working out the truth table, the first columns are the inidvidual input bits. In this case A and B. Then we compute the inbetween  steps, such as NOT A and NOT B. In the last column we get the full expression, which, in this case is exactly the same column we also had for the OR operator.
 
     | A | B | NOT A | NOT B | (NOT A) AND (NOT B) |   NOT ((NOT A) AND (NOT B))
@@ -468,13 +450,15 @@ def _(mo):
     | 0 | 1 | 1 | 0 | 0 | 1 |
     | 1 | 0 | 0 | 1 | 0 | 1 |
     | 1 | 1 | 0 | 0 | 0 | 1 |
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     For more reading:
 
     - https://en.wikipedia.org/wiki/Boolean_function
@@ -482,7 +466,8 @@ def _(mo):
     - https://en.wikipedia.org/wiki/Functional_completeness
 
     For this text, let's have a quick look at why it makes sense that these operations are useful. Let try to build addition (for small numbers), you can click on the four buttons with 0's to change them to 1's
-    """)
+    """
+    )
     return
 
 
@@ -661,24 +646,25 @@ def _(
 
 @app.cell
 def _(mo):
-    mo.md(r"""
-    Note that already in such a simple diagram many things are repeated, so this is by no means the simplest (in the sense of number of operations) way to construct addition.
-    """)
+    mo.md(r"""Note that already in such a simple diagram many things are repeated, so this is by no means the simplest (in the sense of number of operations) way to construct addition.""")
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     #### Summary and next steps:
     Chips work with a language consisting of bits. Anything a chip should do to such a collection of bits can be constructed from simple operations such as AND and NOT. What is missing is how these abstract ideas can be created in the real world on a piece of silicon!
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     ### Transistors
     The production of semiconductor chips generally splits into two broad categories: memory and logic.
 
@@ -687,13 +673,15 @@ def _(mo):
     Logic chips, on the other hand, are designed to process information. They perform calculations and decision-making using vast networks of transistors arranged to carry out logical operations — we’ll explore how those transistors work next.
 
     💡 Fun fact: The fastest memory in a computer — the cache located inside logic chips like CPUs — is also made entirely of transistors. It’s called SRAM (static RAM) and can access data much faster than external memory types.
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     The logical operations AND, OR, and NOT are a great way to think about how logic works in principle.
     On an actual chip, these operations are realized using physical components called transistors.
 
@@ -702,15 +690,14 @@ def _(mo):
     When a voltage is applied to the gate, it creates an electric field that allows current to pass between the other two terminals — called the source and the drain. In effect, the transistor acts like a voltage-controlled switch: with no voltage on the gate, the switch is off; with sufficient voltage, it turns on.
 
     In a transistor, the gate voltage carries the logical signal. The source serves as the reference for that signal, and the drain acts as the output whose voltage depends on whether the transistor conducts. Therefore the transistor itself is not an AND operator - as the source is not a logical input.
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
-    There are multiple ways to depict transistors in circuit diagrams, below you find one such a depiction for the (NMOS) transistor we described above:
-    """)
+    mo.md(r"""There are multiple ways to depict transistors in circuit diagrams, below you find one such a depiction for the (NMOS) transistor we described above:""")
     return
 
 
@@ -750,7 +737,8 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     This circuit is a CMOS inverter, made from one PMOS and one NMOS transistor, both controlled by the same input voltage A.
 
     When A is high (1), the NMOS transistor turns on, connecting the output Q to Vss (ground, 0). The PMOS transistor remains off, so it has no effect. The result is Q = 0.
@@ -758,13 +746,15 @@ def _(mo):
     When A is low (0), the situation reverses: the PMOS transistor turns on, connecting Q to Vdd (the supply voltage, 1), while the NMOS remains off. Thus A = 0 produces Q = 1 — the output is the logical inverse of the input.
 
     Notice that at any time, only one transistor conducts. This means there is no direct current path between Vdd and Vss when the circuit is stable, minimizing power consumption — a key advantage of CMOS (C for Combined) logic.
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     ### NAND
     There is one final basic logical operator we should mention: The NAND = NOT AND. The diagram matches its name:
 
@@ -779,7 +769,8 @@ def _(mo):
     NOT A = NAND(A, A)
     which we can then use for:
     AND(A, B) = NOT(NAND(A, B)).
-    """)
+    """
+    )
     return
 
 
@@ -799,7 +790,8 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     In the NAND circuit, we now see four transistors — two NMOS and two PMOS.
     The two NMOS transistors conduct only when both inputs A and B are high (1). In that case, both PMOS transistors are off, and the output Out is connected to Vss (0).
 
@@ -808,13 +800,15 @@ def _(mo):
     The resulting behavior matches exactly the truth table of a NAND gate: the output is 0 only when both inputs are 1.
 
     So we see that all the logical operations we would like can be build out of transistors. What remains is how we can make a chips with all those resistors.
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     ### Design and fabrication
     When you look at today’s leading chip companies, names like NVIDIA, Intel, and TSMC often come up. But these companies don’t all do the same thing.
 
@@ -827,13 +821,15 @@ def _(mo):
     This division between chip design and chip manufacturing is known as the fabless–foundry model, and it’s the dominant structure in today’s semiconductor industry. Fabless companies create the chip designs, while foundries handle the fabrication.
 
     The strength of this split lies in specialization: both design and manufacturing are so complex that focusing on one enables companies to excel. Intel, historically both a designer and manufacturer (an integrated device manufacturer, or IDM), has recently fallen behind TSMC and Samsung in process technology but is now investing heavily to catch up and enter the foundry business.
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     ### The economic picture and Moore's law.
     As we saw above, only a few companies are now able to compete at the very high end of chip production due to the enormous complexity of both design and manufacturing.
 
@@ -848,13 +844,15 @@ def _(mo):
     These improvements have enabled compact and power-efficient devices such as smartphones, and they continue to drive advances in AI hardware, where energy efficiency directly affects the cost of training and inference.
 
     In recent years, however, some of these benefits have become less automatic. Clock speeds have largely stopped increasing since the mid-2000s, and cost per transistor is no longer dropping as consistently because of the extreme complexity of modern fabrication. For this reason, many in the industry now debate whether Moore’s law is slowing — or even ending. For now, the industry technology roadmap forecast a continuation of shrinking the size of transistors, in part by using new transistor designs. At the same time by making use of other solutions, such as smart integration of more functionalities on chips under the name "more than Moore".
-    """)
+    """
+    )
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""
+    mo.md(
+        r"""
     ### Actual transistors, semiconductors and Integrated Circuits
     We’ve seen that transistors are the fundamental building blocks of chips, and that by combining many of them, we can perform any operation we like on binary data. In this section, we’ll take a closer look at what a physical transistor actually is.
 
@@ -877,7 +875,8 @@ def _(mo):
     This already gives us nontrivial behavior from semiconductors. To create a transistor, we build on this principle by arranging n-type and p-type regions to form the source and drain of the device, separated by a channel that is normally non-conductive.
 
     The input of the transistor — the gate — is not directly connected to the channel. Instead, when a voltage is applied to the gate, it creates an electric field that attracts charge carriers into the channel, making it conductive and allowing current to flow between the source and drain. In other words, the transistor turns on.
-    """)
+    """
+    )
     return
 
 

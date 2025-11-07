@@ -16,31 +16,17 @@ def _():
 
 
 @app.cell
-def _():
+async def _(sys):
     wheel_name = "goodoptics-0.1.0-py3-none-any.whl"
     wheel_local = "./dist/" + wheel_name
     wheel_remote = "https://benched.github.io/basic_litho_sim/" + wheel_name
-    return wheel_local, wheel_remote
 
-
-@app.cell
-def _(wheel_local):
-    wheel_local
-    return
-
-
-@app.cell
-def _(wheel_remote):
-    wheel_remote
-    return
-
-
-@app.cell
-async def _(sys, wheel_local, wheel_remote):
     is_pyodide = "pyodide" in sys.modules
 
     if "pyodide" in sys.modules:
         import micropip
+        await micropip.install("plotly")
+        await micropip.install("sympy")
         await micropip.install(wheel_remote)
     else:
         import subprocess, pathlib
@@ -69,7 +55,7 @@ def _(mo):
 
 @app.cell
 def _(plot, shapes):
-    tophat = shapes.top_hat_2d_da(400, 400, -1, 1, -1, 1, -2, 2, -2, 2)
+    tophat = shapes.top_hat_2d_da(100, 100, -1, 1, -1, 1, -2, 2, -2, 2)
     plot.real_surface(tophat)
     return (tophat,)
 
