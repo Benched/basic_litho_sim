@@ -27,6 +27,7 @@ def _(mo):
     2. [Basic examples of fourier optics package](./notebook_optics_basics.html)
         * Shows of some of the capabilities of the Fourier optics package
     3. [First look at fourier optics on a grating usecase](./notebook_zernikes_and_gratings.html)
+    4. [Editable version of the above notebook - work with python yourself](./notebook_zernikes_and_gratings_editable.html)
     """
     )
     return

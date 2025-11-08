@@ -25,10 +25,11 @@ echo Exporting Marimo notebooks...
 marimo export html-wasm content\notebook_index.py -o docs\index.html
 marimo export html-wasm content\notebook_introduction.py -o docs\notebook_introduction.html
 marimo export html-wasm content\notebook_optics_basics.py -o docs\notebook_optics_basics.html
-marimo export html-wasm content\notebook_zernikes_and_gratings.py -o docs\notebook_zernikes_and_gratings.html --mode edit
+marimo export html-wasm content\notebook_zernikes_and_gratings.py -o docs\notebook_zernikes_and_gratings.html
+marimo export html-wasm content\notebook_zernikes_and_gratings.py -o docs\notebook_zernikes_and_gratings_editable.html --mode edit
 
 echo.
-echo ✅ Build complete! All files ready in the docs folder.
+echo Build complete! All files ready in the docs folder.
 echo.
 
 REM Keep console open
