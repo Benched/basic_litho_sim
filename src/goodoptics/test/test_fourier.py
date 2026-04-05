@@ -1,9 +1,10 @@
 import warnings
 import pytest
+import shapes
+import fourier
+import utils
 import numpy as np
 import xarray as xr
-
-from goodoptics import fourier, shapes, utils
 
 @pytest.mark.parametrize("N, epsilon0, epsilon1, xmin, xmax, tol", [
     (100000, -0.1, 0.2, -100, 100, 0.005),

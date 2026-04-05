@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -9,20 +9,6 @@ description = "Helper library for optics Marimo notebooks"
 authors = [{ name = "Steven Berghout" }]
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-    "matplotlib",
-    "numpy>=1.26",
-    "plotly",
-    "sympy",
-    "xarray>=2024.1.0",
-]
-
-[project.optional-dependencies]
-dev = [
-    "build",
-    "marimo>=0.3.0",
-    "pytest",
-]
 
 [tool.setuptools.packages.find]
 where = ["src"]

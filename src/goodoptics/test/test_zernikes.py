@@ -1,12 +1,11 @@
+from zernikes import zernike, fit_zernikes_to_da, zernike_aberration
+import zernikes
 import pytest
 import numpy as np
 import xarray as xr
 import random
 import plotly
 import matplotlib
-
-from goodoptics import zernikes
-from goodoptics.zernikes import fit_zernikes_to_da, zernike, zernike_aberration
 
 @pytest.mark.parametrize(
     "m, n, N",
@@ -209,6 +208,7 @@ def test_fit_zernikes_to_da():
 
 
 def test_zernike_aberration_sample_caching_behavior():
+    import zernikes
     import numpy as np
 
     # Construct a small aberration with two modes
