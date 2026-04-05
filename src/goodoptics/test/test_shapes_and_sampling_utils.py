@@ -1,9 +1,8 @@
 import warnings
 import pytest
+import shapes
 import numpy as np
 import xarray as xr
-
-from goodoptics import shapes
 
 """
 Test Suite Structure for Shape Sampling Utilities (1D and 2D)

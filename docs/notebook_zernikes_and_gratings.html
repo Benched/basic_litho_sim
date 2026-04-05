@@ -8,12 +8,12 @@
     <link rel="preload" href="./assets/gradient-yHQUC_QB.png" as="image" />
     <link rel="preload" href="./assets/noise-60BoTA8O.png" as="image" />
     <!-- Preload the fonts -->
-    <link rel="preload" href="./assets/Lora-VariableFont_wght-CZceb_kH.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-    <link rel="preload" href="./assets/PTSans-Regular-Bam3NpBI.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-    <link rel="preload" href="./assets/PTSans-Bold-C_DwAp7Z.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-    <link rel="preload" href="./assets/FiraMono-Regular-CEsLFVD9.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-    <link rel="preload" href="./assets/FiraMono-Medium-D5MAsWEG.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-    <link rel="preload" href="./assets/FiraMono-Bold-C6PDArdf.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/Lora-VariableFont_wght-B2ootaw-.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Regular-CxL0S8W7.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Bold-D9fedIX3.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Regular-BTCkDNvf.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Medium-DU3aDxX5.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Bold-CLVRCuM9.ttf" as="font" crossorigin="anonymous" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -23,22 +23,18 @@
 
     <script data-marimo="true">
       function __resizeIframe(obj) {
-        const scrollbarHeight = 20; // Max between windows, mac, and linux
+        var scrollbarHeight = 20; // Max between windows, mac, and linux
 
         function setHeight() {
-          // Guard against race condition where iframe isn't ready
-          if (!obj.contentWindow?.document?.documentElement) {
-            return;
-          }
-          const element = obj.contentWindow.document.documentElement;
+          var element = obj.contentWindow.document.documentElement;
           // If there is no vertical scrollbar, we don't need to resize the iframe
           if (element.scrollHeight === element.clientHeight) {
             return;
           }
 
           // Create a new height that includes the scrollbar height if it's visible
-          const hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
-          const newHeight = element.scrollHeight + (hasHorizontalScrollbar ? scrollbarHeight : 0);
+          var hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
+          var newHeight = element.scrollHeight + (hasHorizontalScrollbar ? scrollbarHeight : 0);
 
           // Only update the height if it's different from the current height
           if (obj.style.height !== `${newHeight}px`) {
@@ -50,202 +46,21 @@
         setHeight();
 
         // Resize the iframe when the content changes
-        const resizeObserver = new ResizeObserver((_entries) => {
+        const resizeObserver = new ResizeObserver((entries) => {
           setHeight();
         });
-        // Only observe if iframe content is ready
-        if (obj.contentWindow?.document?.body) {
-          resizeObserver.observe(obj.contentWindow.document.body);
-        }
+        resizeObserver.observe(obj.contentWindow.document.body);
       }
     </script>
     <marimo-filename hidden>notebook.py</marimo-filename>
-    <!-- TODO(Trevor): Legacy, required by VS Code plugin. Remove when plugin is updated (see marimo/server/_templates/template.py) -->
-    <marimo-version data-version="{{ version }}" hidden></marimo-version>
-    <marimo-user-config data-config="{{ user_config }}" hidden></marimo-user-config>
-    <marimo-server-token data-token="{{ server_token }}" hidden></marimo-server-token>
-    <!-- /TODO -->
+    <marimo-mode data-mode='read' hidden></marimo-mode>
+    <marimo-version data-version='0.13.11' hidden></marimo-version>
+    <marimo-user-config data-config='{"completion": {"activate_on_typing": true, "copilot": false}, "display": {"cell_output": "above", "code_editor_font_size": 14, "dataframes": "rich", "default_table_page_size": 10, "default_width": "medium", "theme": "light"}, "formatting": {"line_length": 79}, "keymap": {"preset": "default", "overrides": {}}, "runtime": {"auto_instantiate": true, "auto_reload": "off", "reactive_tests": true, "on_cell_change": "autorun", "watcher_on_save": "lazy", "output_max_bytes": 8000000, "std_stream_max_bytes": 1000000, "default_sql_output": "auto"}, "save": {"autosave": "off", "autosave_delay": 1000, "format_on_save": false}, "package_management": {"manager": "pip"}, "server": {"browser": "default", "follow_symlink": false}, "language_servers": {"pylsp": {"enabled": true, "enable_mypy": true, "enable_ruff": true, "enable_flake8": false, "enable_pydocstyle": false, "enable_pylint": false, "enable_pyflakes": false}}, "snippets": {"custom_paths": [], "include_default_snippets": true}}' data-overrides='{}' hidden></marimo-user-config>
+    <marimo-app-config data-config='{"width": "medium", "sql_output": "auto"}' hidden></marimo-app-config>
+    <marimo-server-token data-token='123' hidden></marimo-server-token>
     <title>notebook zernikes and gratings</title>
-    <script type="module" crossorigin src="./assets/index-CaFbHOEK.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/preload-helper-DItdS47A.js">
-    <link rel="modulepreload" crossorigin href="./assets/chunk-LvLJmgfZ.js">
-    <link rel="modulepreload" crossorigin href="./assets/react-Bj1aDYRI.js">
-    <link rel="modulepreload" crossorigin href="./assets/compiler-runtime-B3qBwwSJ.js">
-    <link rel="modulepreload" crossorigin href="./assets/jsx-runtime-Blw4afVn.js">
-    <link rel="modulepreload" crossorigin href="./assets/useEventListener-DGjKht0c.js">
-    <link rel="modulepreload" crossorigin href="./assets/defaultLocale-D_rSvXvJ.js">
-    <link rel="modulepreload" crossorigin href="./assets/precisionRound-BMPhtTJQ.js">
-    <link rel="modulepreload" crossorigin href="./assets/defaultLocale-C92Rrpmf.js">
-    <link rel="modulepreload" crossorigin href="./assets/vega-loader.browser-CRZ52CKf.js">
-    <link rel="modulepreload" crossorigin href="./assets/utils-COwZ1qVI.js">
-    <link rel="modulepreload" crossorigin href="./assets/clsx-XrBBnd7s.js">
-    <link rel="modulepreload" crossorigin href="./assets/cn-DYvqRARy.js">
-    <link rel="modulepreload" crossorigin href="./assets/badge-CufG8W4J.js">
-    <link rel="modulepreload" crossorigin href="./assets/button-BKVLeSTX.js">
-    <link rel="modulepreload" crossorigin href="./assets/react-dom-CSu739Rf.js">
-    <link rel="modulepreload" crossorigin href="./assets/fullscreen-k58KVlT-.js">
-    <link rel="modulepreload" crossorigin href="./assets/menu-items-Dtw5N98_.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-sZgjGm4S.js">
-    <link rel="modulepreload" crossorigin href="./assets/createLucideIcon-w-Qo9n0R.js">
-    <link rel="modulepreload" crossorigin href="./assets/check-B-sKate2.js">
-    <link rel="modulepreload" crossorigin href="./assets/x-Bv2rCglF.js">
-    <link rel="modulepreload" crossorigin href="./assets/select--zcABebs.js">
-    <link rel="modulepreload" crossorigin href="./assets/tooltip-DmqhBBs6.js">
-    <link rel="modulepreload" crossorigin href="./assets/use-toast-T0_cQDma.js">
-    <link rel="modulepreload" crossorigin href="./assets/useEvent-D91BmmQi.js">
-    <link rel="modulepreload" crossorigin href="./assets/invariant-CkiqGLcK.js">
-    <link rel="modulepreload" crossorigin href="./assets/isObject-DvLSfCY5.js">
-    <link rel="modulepreload" crossorigin href="./assets/isArrayLikeObject-ODovYgPQ.js">
-    <link rel="modulepreload" crossorigin href="./assets/merge-BOaDhCTH.js">
-    <link rel="modulepreload" crossorigin href="./assets/zod-H_cgTO0M.js">
-    <link rel="modulepreload" crossorigin href="./assets/utils-8btzWeZg.js">
-    <link rel="modulepreload" crossorigin href="./assets/Deferred-DMWKlZOV.js">
-    <link rel="modulepreload" crossorigin href="./assets/uuid-DercMavo.js">
-    <link rel="modulepreload" crossorigin href="./assets/DeferredRequestRegistry-KOgQgaJP.js">
-    <link rel="modulepreload" crossorigin href="./assets/constants-tOPFFcLZ.js">
-    <link rel="modulepreload" crossorigin href="./assets/session-DDorezMU.js">
-    <link rel="modulepreload" crossorigin href="./assets/config-DCMsCquu.js">
-    <link rel="modulepreload" crossorigin href="./assets/requests-9-v2bhoi.js">
-    <link rel="modulepreload" crossorigin href="./assets/useLifecycle-N3bfh_O1.js">
-    <link rel="modulepreload" crossorigin href="./assets/useNonce-CbdaHKzX.js">
-    <link rel="modulepreload" crossorigin href="./assets/useTheme-B1JCa4JT.js">
-    <link rel="modulepreload" crossorigin href="./assets/arrays-DAC2orgH.js">
-    <link rel="modulepreload" crossorigin href="./assets/strings-pfr2N700.js">
-    <link rel="modulepreload" crossorigin href="./assets/once-hq2TLzOp.js">
-    <link rel="modulepreload" crossorigin href="./assets/capabilities-BmGdj50E.js">
-    <link rel="modulepreload" crossorigin href="./assets/createReducer-CYlwteGD.js">
-    <link rel="modulepreload" crossorigin href="./assets/paths-Dfii2bN8.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-VwkX7yeV.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-BNTOYRCs.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-DZJfxwLb.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-BY7nTlwr.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-1CqkOLet.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-C68iXRWB.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-IM-Yi8zQ.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-Bna8Uthk.js">
-    <link rel="modulepreload" crossorigin href="./assets/dist-BPkOpnKv.js">
-    <link rel="modulepreload" crossorigin href="./assets/stex-CtmkcLz7.js">
-    <link rel="modulepreload" crossorigin href="./assets/toDate-BGIVWsZ9.js">
-    <link rel="modulepreload" crossorigin href="./assets/purify.es-D5ZyGDwc.js">
-    <link rel="modulepreload" crossorigin href="./assets/cjs-D5tzp-Y6.js">
-    <link rel="modulepreload" crossorigin href="./assets/isSymbol-BT6B8Bon.js">
-    <link rel="modulepreload" crossorigin href="./assets/toNumber-BvwE1TMv.js">
-    <link rel="modulepreload" crossorigin href="./assets/now-DNX1lT2d.js">
-    <link rel="modulepreload" crossorigin href="./assets/debounce-BbSyBDA8.js">
-    <link rel="modulepreload" crossorigin href="./assets/database-zap-BxfYZ6ML.js">
-    <link rel="modulepreload" crossorigin href="./assets/main-BNL5rxQw.js">
-    <link rel="modulepreload" crossorigin href="./assets/cells-C9wzDxwr.js">
-    <link rel="modulepreload" crossorigin href="./assets/ErrorBoundary-dxChUL02.js">
-    <link rel="modulepreload" crossorigin href="./assets/kbd-BbX-cXm5.js">
-    <link rel="modulepreload" crossorigin href="./assets/useInstallPackage-EEg9LCNy.js">
-    <link rel="modulepreload" crossorigin href="./assets/alert-dialog-CXspBRlP.js">
-    <link rel="modulepreload" crossorigin href="./assets/dialog-CognbQV_.js">
-    <link rel="modulepreload" crossorigin href="./assets/useDebounce-CnN5Ul9t.js">
-    <link rel="modulepreload" crossorigin href="./assets/numbers-b0Wn9I4t.js">
-    <link rel="modulepreload" crossorigin href="./assets/SSRProvider-kyGHZp36.js">
-    <link rel="modulepreload" crossorigin href="./assets/context-DaFZ_AD8.js">
-    <link rel="modulepreload" crossorigin href="./assets/useNumberFormatter-P9_gWrHA.js">
-    <link rel="modulepreload" crossorigin href="./assets/usePress-YLit4doY.js">
-    <link rel="modulepreload" crossorigin href="./assets/input-DjrybsRY.js">
-    <link rel="modulepreload" crossorigin href="./assets/ImperativeModal-DSu22ncS.js">
-    <link rel="modulepreload" crossorigin href="./assets/cell-link-CUOy8qvK.js">
-    <link rel="modulepreload" crossorigin href="./assets/multi-map-MSuUqmbC.js">
-    <link rel="modulepreload" crossorigin href="./assets/alert-DrrhKX67.js">
-    <link rel="modulepreload" crossorigin href="./assets/chevron-right-CgvDWFE3.js">
-    <link rel="modulepreload" crossorigin href="./assets/dropdown-menu-DrHAuMTb.js">
-    <link rel="modulepreload" crossorigin href="./assets/links-NCBzUApL.js">
-    <link rel="modulepreload" crossorigin href="./assets/datasource-o22Gadpo.js">
-    <link rel="modulepreload" crossorigin href="./assets/state-BeEg2EJ6.js">
-    <link rel="modulepreload" crossorigin href="./assets/sparkles-DczT6OBt.js">
-    <link rel="modulepreload" crossorigin href="./assets/MarimoErrorOutput-EEO_bAbD.js">
-    <link rel="modulepreload" crossorigin href="./assets/copy-C8iWa1qI.js">
-    <link rel="modulepreload" crossorigin href="./assets/copy-DFMsQ6MJ.js">
-    <link rel="modulepreload" crossorigin href="./assets/copy-icon-CG2ao3lW.js">
-    <link rel="modulepreload" crossorigin href="./assets/spinner-AR54Ic3-.js">
-    <link rel="modulepreload" crossorigin href="./assets/html-to-image-DN6TNqeX.js">
-    <link rel="modulepreload" crossorigin href="./assets/focus-4jo_CuOp.js">
-    <link rel="modulepreload" crossorigin href="./assets/useAsyncData-BPlezez1.js">
-    <link rel="modulepreload" crossorigin href="./assets/LazyAnyLanguageCodeMirror-BEdv0N9X.js">
-    <link rel="modulepreload" crossorigin href="./assets/micromark-factory-space-BygYYKhs.js">
-    <link rel="modulepreload" crossorigin href="./assets/chunk-5FQGJX7Z-OcP0iC1i.js">
-    <link rel="modulepreload" crossorigin href="./assets/markdown-renderer-B-YFfOW1.js">
-    <link rel="modulepreload" crossorigin href="./assets/command-C0h2HiOh.js">
-    <link rel="modulepreload" crossorigin href="./assets/popover-AtoFZ7i4.js">
-    <link rel="modulepreload" crossorigin href="./assets/errors-DVkmLSXX.js">
-    <link rel="modulepreload" crossorigin href="./assets/download-Bpd05cN4.js">
-    <link rel="modulepreload" crossorigin href="./assets/useRunCells-DQQ6CB8T.js">
-    <link rel="modulepreload" crossorigin href="./assets/RenderHTML-CvgwqLt6.js">
-    <link rel="modulepreload" crossorigin href="./assets/table-D5iZuBiR.js">
-    <link rel="modulepreload" crossorigin href="./assets/useIframeCapabilities-YemHpw31.js">
-    <link rel="modulepreload" crossorigin href="./assets/error-banner-B3Vr5jH0.js">
-    <link rel="modulepreload" crossorigin href="./assets/formats-Cl4zm1Jf.js">
-    <link rel="modulepreload" crossorigin href="./assets/en-US-BUL7VBfl.js">
-    <link rel="modulepreload" crossorigin href="./assets/isValid-CtiDIjiD.js">
-    <link rel="modulepreload" crossorigin href="./assets/dates-CU9x8xLB.js">
-    <link rel="modulepreload" crossorigin href="./assets/maps-B4xARV9R.js">
-    <link rel="modulepreload" crossorigin href="./assets/extends-B2LJnKU3.js">
-    <link rel="modulepreload" crossorigin href="./assets/emotion-is-prop-valid.esm-DD4AwVTU.js">
-    <link rel="modulepreload" crossorigin href="./assets/useDateFormatter-CZ9wPqxj.js">
-    <link rel="modulepreload" crossorigin href="./assets/react-icons.esm-B8rtE4cC.js">
-    <link rel="modulepreload" crossorigin href="./assets/toFinite-2vTWYoIX.js">
-    <link rel="modulepreload" crossorigin href="./assets/range-D-0CV4c0.js">
-    <link rel="modulepreload" crossorigin href="./assets/table-qC3alE1r.js">
-    <link rel="modulepreload" crossorigin href="./assets/message-circle-ehj_MdGz.js">
-    <link rel="modulepreload" crossorigin href="./assets/react-resizable-panels.browser.esm-D0qmuH5W.js">
-    <link rel="modulepreload" crossorigin href="./assets/JsonOutput-heEAqE8H.js">
-    <link rel="modulepreload" crossorigin href="./assets/chart-no-axes-column-CsXoiEZx.js">
-    <link rel="modulepreload" crossorigin href="./assets/square-function-DIHpmVFo.js">
-    <link rel="modulepreload" crossorigin href="./assets/spec-CFx2bitO.js">
-    <link rel="modulepreload" crossorigin href="./assets/ellipsis-vertical-DEH0lwkn.js">
-    <link rel="modulepreload" crossorigin href="./assets/refresh-cw-CoFbRtMK.js">
-    <link rel="modulepreload" crossorigin href="./assets/components-CtW4EQ0a.js">
-    <link rel="modulepreload" crossorigin href="./assets/column-preview-D9viH8oS.js">
-    <link rel="modulepreload" crossorigin href="./assets/icons-UbXYeuXE.js">
-    <link rel="modulepreload" crossorigin href="./assets/floating-outline-CEoUA-ND.js">
-    <link rel="modulepreload" crossorigin href="./assets/useAddCell-TIHLIw_p.js">
-    <link rel="modulepreload" crossorigin href="./assets/objectWithoutPropertiesLoose-DaPAPabU.js">
-    <link rel="modulepreload" crossorigin href="./assets/esm-BV1ClmM0.js">
-    <link rel="modulepreload" crossorigin href="./assets/eye-off-DgRJ-xBZ.js">
-    <link rel="modulepreload" crossorigin href="./assets/plus-DWrQrVLZ.js">
-    <link rel="modulepreload" crossorigin href="./assets/readonly-python-code-BNv35LAm.js">
-    <link rel="modulepreload" crossorigin href="./assets/file-headphone-5_PGMxRL.js">
-    <link rel="modulepreload" crossorigin href="./assets/file-DaJ4JeZH.js">
-    <link rel="modulepreload" crossorigin href="./assets/image-CpSydGUq.js">
-    <link rel="modulepreload" crossorigin href="./assets/file-icons-BJUn_Zwi.js">
-    <link rel="modulepreload" crossorigin href="./assets/switch-BOBVe-9H.js">
-    <link rel="modulepreload" crossorigin href="./assets/events-BRAWQiYK.js">
-    <link rel="modulepreload" crossorigin href="./assets/globals-CinMfY9h.js">
-    <link rel="modulepreload" crossorigin href="./assets/share-DkQqqFqC.js">
-    <link rel="modulepreload" crossorigin href="./assets/blob-CpeNXBj-.js">
-    <link rel="modulepreload" crossorigin href="./assets/memoize-BwAF2XN5.js">
-    <link rel="modulepreload" crossorigin href="./assets/get-D7jeR2wg.js">
-    <link rel="modulepreload" crossorigin href="./assets/_baseSet-49dbm-yb.js">
-    <link rel="modulepreload" crossorigin href="./assets/state-Cybx0BE_.js">
-    <link rel="modulepreload" crossorigin href="./assets/label-C89F4v17.js">
-    <link rel="modulepreload" crossorigin href="./assets/textarea-DoPazz3x.js">
-    <link rel="modulepreload" crossorigin href="./assets/refresh-ccw-DxvV30QW.js">
-    <link rel="modulepreload" crossorigin href="./assets/trash-2-CwDX6_Ac.js">
-    <link rel="modulepreload" crossorigin href="./assets/form-yizCLBQu.js">
-    <link rel="modulepreload" crossorigin href="./assets/renderShortcut-9B7Z8taX.js">
-    <link rel="modulepreload" crossorigin href="./assets/field-C6i22m8B.js">
-    <link rel="modulepreload" crossorigin href="./assets/VisuallyHidden-DVY6OceZ.js">
-    <link rel="modulepreload" crossorigin href="./assets/useBoolean-Dvk5-C1P.js">
-    <link rel="modulepreload" crossorigin href="./assets/useDeepCompareMemoize-Bj2wGMJg.js">
-    <link rel="modulepreload" crossorigin href="./assets/types-BUmn6Kar.js">
-    <link rel="modulepreload" crossorigin href="./assets/fileToBase64-D7Ur9Qxq.js">
-    <link rel="modulepreload" crossorigin href="./assets/prop-types-BiQYf0aU.js">
-    <link rel="modulepreload" crossorigin href="./assets/es-BWPeXVU-.js">
-    <link rel="modulepreload" crossorigin href="./assets/hasIn-DafhTYio.js">
-    <link rel="modulepreload" crossorigin href="./assets/_basePickBy-C0EPK3Lm.js">
-    <link rel="modulepreload" crossorigin href="./assets/pick-neNJUP_8.js">
-    <link rel="modulepreload" crossorigin href="./assets/code-xml-DxxzgVgU.js">
-    <link rel="modulepreload" crossorigin href="./assets/square-BVY9SgWs.js">
-    <link rel="modulepreload" crossorigin href="./assets/triangle-alert-0kCM6b2I.js">
-    <link rel="modulepreload" crossorigin href="./assets/bundle.esm-BnMsvtfp.js">
-    <link rel="stylesheet" crossorigin href="./assets/cells-jmgGt1lS.css">
-    <link rel="stylesheet" crossorigin href="./assets/markdown-renderer-DdDKmWlR.css">
-    <link rel="stylesheet" crossorigin href="./assets/JsonOutput-B7vuddcd.css">
-    <link rel="stylesheet" crossorigin href="./assets/index-BNN_F0CC.css">
+    <script type="module" crossorigin src="./assets/index-BR3wLmMq.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CQvPIadz.css">
   <marimo-wasm hidden=""></marimo-wasm>
     <script>
         if (window.location.protocol === 'file:') {
@@ -261,26 +76,8 @@
             display: none !important;
         }
     </style>
-    <marimo-code hidden="">import%20marimo%0A%0A__generated_with%20%3D%20%220.22.4%22%0Aapp%20%3D%20marimo.App(width%3D%22medium%22)%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20marimo%20as%20mo%0A%20%20%20%20import%20sys%0A%20%20%20%20import%20numpy%20as%20np%0A%20%20%20%20import%20matplotlib.pyplot%20as%20plt%0A%20%20%20%20import%20xarray%20as%20xr%0A%0A%20%20%20%20return%20mo%2C%20np%2C%20plt%2C%20sys%2C%20xr%0A%0A%0A%40app.cell%0Aasync%20def%20_(sys)%3A%0A%20%20%20%20if%20%22pyodide%22%20in%20sys.modules%3A%0A%20%20%20%20%20%20%20%20import%20micropip%0A%20%20%20%20%20%20%20%20from%20pyodide.http%20import%20pyfetch%0A%0A%20%20%20%20%20%20%20%20manifest_response%20%3D%20await%20pyfetch(%22.%2Fgoodoptics-wheel.json%22)%0A%20%20%20%20%20%20%20%20if%20not%20manifest_response.ok%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20raise%20RuntimeError(%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20f%22Could%20not%20load%20wheel%20manifest%20(HTTP%20%7Bmanifest_response.status%7D).%22%0A%20%20%20%20%20%20%20%20%20%20%20%20)%0A%20%20%20%20%20%20%20%20wheel_manifest%20%3D%20await%20manifest_response.json()%0A%0A%20%20%20%20%20%20%20%20await%20micropip.install(%22plotly%22)%0A%20%20%20%20%20%20%20%20await%20micropip.install(%22sympy%22)%0A%20%20%20%20%20%20%20%20await%20micropip.install(f%22.%2F%7Bwheel_manifest%5B'wheel_filename'%5D%7D%22)%0A%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20try%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20import%20goodoptics%20%20%23%20noqa%3A%20F401%0A%20%20%20%20%20%20%20%20except%20ModuleNotFoundError%20as%20exc%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20raise%20ModuleNotFoundError(%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22Install%20the%20project%20first%20with%20%60python%20-m%20pip%20install%20-e%20%5C%22.%5Bdev%5D%5C%22%60.%22%0A%20%20%20%20%20%20%20%20%20%20%20%20)%20from%20exc%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20from%20goodoptics%20import%20zernikes%2C%20fourier%2C%20plot%2C%20shapes%0A%0A%20%20%20%20return%20fourier%2C%20plot%2C%20shapes%2C%20zernikes%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20N%20%3D%20600%0A%20%20%20%20return%20(N%2C)%0A%0A%0A%40app.cell%0Adef%20_(N%2C%20zernikes)%3A%0A%20%20%20%20z2%20%3D%20zernikes.zernike(2)%0A%20%20%20%20z2.N%20%3D%20N%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20%23%20distortion%20%3D%20zernikes.zernike_aberration(%7B2%3A10%2C%204%3A180%2C%205%3A180%2C%207%3A-20%2C%209%3A30%7D%2C%20N%3DN)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(np%2C%20xr)%3A%0A%0A%20%20%20%20def%20grating_x_da(%0A%20%20%20%20%20%20%20%20total_area%3D100%2C%0A%20%20%20%20%20%20%20%20used_area%3D30%2C%0A%20%20%20%20%20%20%20%20line_width%3D1%2C%0A%20%20%20%20%20%20%20%20N%3D600%2C%0A%20%20%20%20%20%20%20%20overall_offset_x%3D0%2C%0A%20%20%20%20%20%20%20%20overall_offset_y%3D0%2C%0A%20%20%20%20)%3A%0A%20%20%20%20%20%20%20%20%22%22%22%0A%20%20%20%20%20%20%20%20Generate%20a%202D%20vertical%20grating%20pattern%20with%20perfectly%20aligned%2C%0A%20%20%20%20%20%20%20%20full-width%20stripes%20and%20no%20edge%20leftovers.%0A%20%20%20%20%20%20%20%20%22%22%22%0A%20%20%20%20%20%20%20%20%23%20---%20Grid%20---%0A%20%20%20%20%20%20%20%20x%20%3D%20np.linspace(-total_area%2C%20total_area%2C%20N%2C%20endpoint%3DFalse)%0A%20%20%20%20%20%20%20%20y%20%3D%20np.linspace(-total_area%2C%20total_area%2C%20N%2C%20endpoint%3DFalse)%0A%20%20%20%20%20%20%20%20X%2C%20Y%20%3D%20np.meshgrid(x%2C%20y%2C%20indexing%3D%22ij%22)%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Correct%20cutoff%20to%20nearest%20multiple%20of%20period%20(2*line_width)%20---%0A%20%20%20%20%20%20%20%20period%20%3D%202%20*%20line_width%0A%20%20%20%20%20%20%20%20full_extent%20%3D%20(used_area%20%2F%2F%20period)%20*%20period%0A%20%20%20%20%20%20%20%20cutoff%20%3D%20full_extent%20%2F%202%20%20%23%20symmetric%20half-width%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Define%20shifted%20coordinates%20---%0A%20%20%20%20%20%20%20%20Xs%20%3D%20X%20-%20overall_offset_x%0A%20%20%20%20%20%20%20%20Ys%20%3D%20Y%20-%20overall_offset_y%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Inside%20aperture%20---%0A%20%20%20%20%20%20%20%20inside%20%3D%20(np.abs(Xs)%20%3C%3D%20cutoff)%20%26%20(np.abs(Ys)%20%3C%3D%20used_area)%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Periodic%20grating%20mask%20(modulo-based%2C%20robust%20to%20float%20rounding)%20---%0A%20%20%20%20%20%20%20%20local_x%20%3D%20(Xs%20%2B%20cutoff)%20%25%20(2%20*%20line_width)%0A%20%20%20%20%20%20%20%20line_mask%20%3D%20local_x%20%3C%20line_width%20%20%23%201st%20half%20%3D%20bright%20line%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Final%20pattern%20---%0A%20%20%20%20%20%20%20%20pattern%20%3D%20np.where(inside%20%26%20line_mask%2C%201.0%2C%200.0)%0A%0A%20%20%20%20%20%20%20%20da%20%3D%20xr.DataArray(%0A%20%20%20%20%20%20%20%20%20%20%20%20pattern%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20coords%3D%7B%22x%22%3A%20x%2C%20%22y%22%3A%20y%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20dims%3D(%22x%22%2C%20%22y%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20attrs%3D%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22dx%22%3A%20(2%20*%20total_area%20%2F%20N)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22dy%22%3A%20(2%20*%20total_area%20%2F%20N)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22N%22%3A%20N%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22cutoff%22%3A%20cutoff%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22period%22%3A%20period%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20)%0A%0A%20%20%20%20%20%20%20%20return%20da%0A%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(shapes%2C%20xr)%3A%0A%20%20%20%20def%20grating_x(total_area%3D100%2C%20used_area%3D30%2C%20line_width%3D1%2C%20N%3D600%2C%20overall_offset_x%3D0%2C%20overall_offset_y%3D0)%3A%0A%20%20%20%20%20%20%20%20iterations%20%3D%20used_area%20%2F%2F%20line_width%0A%20%20%20%20%20%20%20%20lines%20%3D%20%5B%5D%0A%20%20%20%20%20%20%20%20for%20i%20in%20range(iterations)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20offset_x%20%3D%20-used_area%20%2B%20%202*line_width*i%0A%20%20%20%20%20%20%20%20%20%20%20%20lines.append(shapes.top_hat_2d_da(N%2C%20N%2C%20overall_offset_x%2Boffset_x%2C%20overall_offset_x%2Boffset_x%2Bline_width%2Coverall_offset_y-used_area%2Coverall_offset_y%2Bused_area%2C%20-total_area%2C%20total_area%2C%20-total_area%2C%20total_area))%0A%20%20%20%20%20%20%20%20return%20xr.concat(lines%2C%20dim%3D%22i%22).sum('i')%0A%0A%20%20%20%20return%20(grating_x%2C)%0A%0A%0A%40app.cell%0Adef%20_(shapes%2C%20xr)%3A%0A%20%20%20%20def%20grating_y(total_area%3D100%2C%20used_area%3D30%2C%20line_width%3D1%2C%20N%3D600%2C%20overall_offset_x%3D0%2C%20overall_offset_y%3D0)%3A%0A%20%20%20%20%20%20%20%20iterations%20%3D%20used_area%20%2F%2F%20line_width%0A%20%20%20%20%20%20%20%20lines%20%3D%20%5B%5D%0A%20%20%20%20%20%20%20%20for%20i%20in%20range(iterations)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20offset_y%20%3D%20-used_area%20%2B%20%202*line_width*i%0A%20%20%20%20%20%20%20%20%20%20%20%20lines.append(shapes.top_hat_2d_da(N%2C%20N%2Coverall_offset_x-used_area%2Coverall_offset_x%2Bused_area%2C%20overall_offset_y%2Boffset_y%2C%20overall_offset_y%2Boffset_y%2Bline_width%2C%20-total_area%2C%20total_area%2C%20-total_area%2C%20total_area))%0A%20%20%20%20%20%20%20%20return%20xr.concat(lines%2C%20dim%3D%22i%22).sum('i')%0A%0A%20%20%20%20return%20(grating_y%2C)%0A%0A%0A%40app.cell%0Adef%20_(N%2C%20grating_x%2C%20grating_y)%3A%0A%20%20%20%20lines%20%3D%20grating_y(overall_offset_y%20%3D%20-40%2C%20N%20%3D%20N)%20%2B%20grating_x(overall_offset_y%20%3D%2040%2C%20N%3DN)%20%0A%20%20%20%20return%20(lines%2C)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(r%22%22%22%0A%20%20%20%20%23%20Gratings%20and%20their%20imaging%0A%20%20%20%20Starting%20with%20a%20basic%20usecase%20-%20horizontal%20and%20vertical%20lines%20we%20will%20show%20the%20impact%20of%20some%20imaging%20distortions.%0A%20%20%20%20%22%22%22)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(lines%2C%20plt)%3A%0A%20%20%20%20plt.imshow(lines)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(fourier%2C%20lines%2C%20shapes)%3A%0A%20%20%20%20ft_lines_zeroed%20%3D%20shapes.zero_outside_radius(fourier.ft2d(lines)%2C%201.5)%0A%20%20%20%20return%20(ft_lines_zeroed%2C)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(r%22%22%22%0A%20%20%20%20If%20we%20take%20a%20fouriertransform%20of%20such%20a%20structure%20-%20and%20limit%20the%20redius%20slightly%20-%20we%20still%20get%20a%20very%20good%20image%20of%20the%20original.%20The%20plots%20have%20a%20reduced%20density%20compared%20to%20the%20actual%20calculations.%0A%20%20%20%20%22%22%22)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(ft_lines_zeroed%2C%20plot%2C%20shapes)%3A%0A%20%20%20%20plot.complex_surface(shapes.reduce_density(ft_lines_zeroed%2C%202%2C%202))%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(fourier%2C%20ft_lines_zeroed)%3A%0A%20%20%20%20image_lines%20%3D%20fourier.ft2d(ft_lines_zeroed)%0A%20%20%20%20return%20(image_lines%2C)%0A%0A%0A%40app.cell%0Adef%20_(image_lines%2C%20plot%2C%20shapes)%3A%0A%20%20%20%20plot.real_surface(shapes.reduce_density(abs(image_lines)%2C%202%2C%202))%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(r%22%22%22%0A%20%20%20%20%23%20Zernikes%0A%20%20%20%20Aberations%20are%20added%20via%20zernikes%20in%20an%20additional%20exponent%20(explanation%20in%20a%20later%20update).%0A%0A%20%20%20%20Let's%20start%20with%20a%20simple%20case%20of%20some%20amount%20of%20Zernike%204%20-%20which%20results%20in%20a%20defocus.%0A%20%20%20%20%22%22%22)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20max_zenike%20%3D%2025%0A%20%20%20%20return%20(max_zenike%2C)%0A%0A%0A%40app.cell%0Adef%20_(max_zenike%2C%20mo)%3A%0A%20%20%20%20zernike_sliders%3D%20%7Bi%20%3A%20mo.ui.slider(start%3D-40%2C%20stop%3D40%2C%20step%3D0.2%2C%20value%3D0%2C%20show_value%3DTrue%2C%20full_width%3DTrue)%20for%20i%20in%20range(2%2C%20max_zenike%2B1)%7D%0A%20%20%20%20return%20(zernike_sliders%2C)%0A%0A%0A%40app.cell%0Adef%20_(zernike_sliders)%3A%0A%20%20%20%20def%20split_into_columns(d%3A%20dict%2C%20ncols%3A%20int%20%3D%203)%3A%0A%20%20%20%20%20%20%20%20items%20%3D%20list(d.items())%0A%20%20%20%20%20%20%20%20total%20%3D%20len(items)%0A%20%20%20%20%20%20%20%20base%2C%20extra%20%3D%20divmod(total%2C%20ncols)%0A%0A%20%20%20%20%20%20%20%20columns%20%3D%20%5B%5D%0A%20%20%20%20%20%20%20%20start%20%3D%200%0A%20%20%20%20%20%20%20%20for%20i%20in%20range(ncols)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20end%20%3D%20start%20%2B%20base%20%2B%20(1%20if%20i%20%3C%20extra%20else%200)%0A%20%20%20%20%20%20%20%20%20%20%20%20columns.append(items%5Bstart%3Aend%5D)%0A%20%20%20%20%20%20%20%20%20%20%20%20start%20%3D%20end%0A%20%20%20%20%20%20%20%20return%20columns%0A%0A%20%20%20%20columns%20%3D%20split_into_columns(zernike_sliders%2C%203)%0A%20%20%20%20return%20(split_into_columns%2C)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20apply_button%20%3D%20mo.ui.button(value%3DTrue%2C%20label%3D%22apply%22)%0A%20%20%20%20return%20(apply_button%2C)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(r%22%22%22%0A%20%20%20%20%23%20Zernike%20sliders%0A%20%20%20%20Below%20you%20can%20use%20the%20zernike%20sliders%20to%20adjsut%20the%20image%0A%20%20%20%20interesting%20use-cases%3A%0A%0A%20%20%20%201.%20Z2%20%3D%204%0A%20%20%20%20%20%20%20%20*%20Z2%20is%20pure%20overlay%0A%20%20%20%20%20%20%20%20*%20Also%20try%20Z3%0A%20%20%20%202.%20Z4%20%3D%204%0A%20%20%20%20%20%20%20%20*%20Z4%20changes%20the%20focus%20for%20all%20lines%0A%20%20%20%203.%20Z4%20%3D%204%20and%20Z5%20%3D%204%0A%20%20%20%20%20%20%20%20*%20Z4%20changes%20the%20focus%20for%20all%20lines%2C%20Z5%20changes%20the%20focus%20-%20but%20it%20depends%20on%20orientation%0A%20%20%20%204.%20Z4%20%3D%204%20and%20Z5%20%3D%20-4%0A%20%20%20%20%20%20%20%20*%20Notice%20how%20this%20is%20the%20opposite%20of%20the%20previous%20experiment%3F%0A%20%20%20%205.%20Z7%20%3D%204%0A%20%20%20%20%20%20%20%20*%20Coma%20is%20an%20overlay%20effect%20-%20and%20feature%20dependent%0A%20%20%20%20%20%20%20%20*%20Also%20try%20Z8%0A%0A%20%20%20%20For%20large%20overlay%20effects%20the%20periodic%20boundary%20becomes%20visible%0A%20%20%20%20%22%22%22)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(apply_button%2C%20mo%2C%20split_into_columns%2C%20zernike_sliders)%3A%0A%20%20%20%20sliders_reshaped%20%3D%20split_into_columns(zernike_sliders)%0A%20%20%20%20mo.vstack(%5B%0A%20%20%20%20%20%20%20%20mo.hstack(%5Bmo.vstack(%5Bmo.hstack(%5Bi%5B0%5D%2C%20i%5B1%5D%5D)%20for%20i%20in%20col%5D)%20for%20col%20in%20sliders_reshaped%5D)%2C%20apply_button%0A%20%20%20%20%5D)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(apply_button%2C%20zernike_sliders)%3A%0A%20%20%20%20v%20%3D%20apply_button.value%0A%20%20%20%20zernike_values%20%3D%20%7Bk%3A%20v.value%20for%20k%2C%20v%20in%20zernike_sliders.items()%7D%0A%20%20%20%20return%20(zernike_values%2C)%0A%0A%0A%40app.cell%0Adef%20_(lines%2C%20zernike_values%2C%20zernikes)%3A%0A%20%20%20%20distortion%20%3D%20zernikes.zernike_aberration(zernike_values%2C%20N%3Dlen(lines))%0A%20%20%20%20return%20(distortion%2C)%0A%0A%0A%40app.cell%0Adef%20_(fourier%2C%20np%2C%20shapes%2C%20zernikes)%3A%0A%20%20%20%20def%20fourier_optics(mask%2C%20distortion%3DNone%2C%20radius%3DNone)%3A%0A%20%20%20%20%20%20%20%20ft%20%3D%20fourier.ft2d(mask)%0A%20%20%20%20%20%20%20%20if%20radius%20is%20None%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20radius%20%3D%20float(ft.x.max())%0A%20%20%20%20%20%20%20%20ft_radius_applied%20%3D%20shapes.zero_outside_radius(ft%2C%20radius)%0A%20%20%20%20%20%20%20%20if%20distortion%20is%20not%20None%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20if%20isinstance(distortion%2C%20dict)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20distortion%20%3D%20zernikes.zernike_aberration(distortion%2C%20N%3Dlen(mask.x))%0A%20%20%20%20%20%20%20%20%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20distortion.N%20%3D%20len(mask.x)%0A%20%20%20%20%20%20%20%20%20%20%20%20distored_ft%20%3D%20ft_radius_applied%20*%20np.exp(complex(0%2C%201)*2*np.pi*%20distortion.sample())%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20fourier.ft2d(distored_ft)%0A%20%20%20%20%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20fourier.ft2d(ft_radius_applied)%0A%0A%20%20%20%20return%20(fourier_optics%2C)%0A%0A%0A%40app.cell%0Adef%20_(distortion%2C%20fourier_optics%2C%20lines)%3A%0A%20%20%20%20lines_imaged%20%3D%20fourier_optics(lines%2C%20distortion%3Ddistortion%2C%20radius%20%3D%20None)%0A%20%20%20%20return%20(lines_imaged%2C)%0A%0A%0A%40app.cell%0Adef%20_(lines_imaged%2C%20plt)%3A%0A%20%20%20%20plt.imshow(abs(lines_imaged))%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(lines_imaged%2C%20plot%2C%20shapes)%3A%0A%20%20%20%20plot.real_surface(shapes.reduce_density(abs(lines_imaged)%2C%202%2C%202))%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(r%22%22%22%0A%20%20%20%20%23%20Quick%20demo%20of%20a%20small%20radius%0A%20%20%20%20The%20individual%20lines%20fall%20below%20the%20threshold%20of%20what%20can%20be%20imaged%20-%20they%20all%20melt%20into%20the%20square%20blocks%20that%20are%20then%20the%20same%20total%20volume%20(and%20therefore%20half%20the%20height)%0A%20%20%20%20%22%22%22)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(fourier_optics%2C%20lines%2C%20plot%2C%20shapes)%3A%0A%20%20%20%20plot.real_surface(%0A%20%20%20%20%20%20%20%20shapes.reduce_density(%0A%20%20%20%20%20%20%20%20%20%20%20%20abs(%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20fourier_optics(lines%2C%20radius%3D.2)%0A%20%20%20%20%20%20%20%20%20%20%20%20)%2C%0A%20%20%20%20%20%20%20%203%2C%203)%0A%20%20%20%20)%0A%20%20%20%20return%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run()%0A</marimo-code></head>
+    <marimo-code hidden="" data-show-code="false">import%20marimo%0A%0A__generated_with%20%3D%20%220.13.11%22%0Aapp%20%3D%20marimo.App(width%3D%22medium%22)%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20marimo%20as%20mo%0A%20%20%20%20import%20sys%0A%20%20%20%20import%20numpy%20as%20np%0A%20%20%20%20import%20matplotlib.pyplot%20as%20plt%0A%20%20%20%20import%20xarray%20as%20xr%0A%20%20%20%20return%20mo%2C%20np%2C%20plt%2C%20sys%2C%20xr%0A%0A%0A%40app.cell%0Aasync%20def%20_(sys)%3A%0A%20%20%20%20wheel_name%20%3D%20%22goodoptics-0.1.0-py3-none-any.whl%22%0A%20%20%20%20wheel_local%20%3D%20%22.%2Fdist%2F%22%20%2B%20wheel_name%0A%20%20%20%20wheel_remote%20%3D%20%22https%3A%2F%2Fbenched.github.io%2Fbasic_litho_sim%2F%22%20%2B%20wheel_name%0A%0A%20%20%20%20is_pyodide%20%3D%20%22pyodide%22%20in%20sys.modules%0A%0A%20%20%20%20if%20%22pyodide%22%20in%20sys.modules%3A%0A%20%20%20%20%20%20%20%20import%20micropip%0A%20%20%20%20%20%20%20%20await%20micropip.install(%22plotly%22)%0A%20%20%20%20%20%20%20%20await%20micropip.install(%22sympy%22)%0A%20%20%20%20%20%20%20%20await%20micropip.install(wheel_remote)%0A%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20import%20subprocess%2C%20pathlib%0A%20%20%20%20%20%20%20%20import%20os%0A%20%20%20%20%20%20%20%20wheel%20%3D%20wheel_local%20%23%20wheel_local%20if%20os.path.exists(wheel_local)%20else%20wheel_remote%0A%20%20%20%20%20%20%20%20subprocess.run(%5Bsys.executable%2C%20%22-m%22%2C%20%22pip%22%2C%20%22install%22%2C%20%22-q%22%2C%20wheel%5D%2C%20check%3DTrue)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20from%20goodoptics%20import%20zernikes%2C%20fourier%2C%20plot%2C%20shapes%0A%20%20%20%20return%20fourier%2C%20plot%2C%20shapes%2C%20zernikes%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20N%20%3D%20600%0A%20%20%20%20return%20(N%2C)%0A%0A%0A%40app.cell%0Adef%20_(N%2C%20zernikes)%3A%0A%20%20%20%20z2%20%3D%20zernikes.zernike(2)%0A%20%20%20%20z2.N%20%3D%20N%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20%23%20distortion%20%3D%20zernikes.zernike_aberration(%7B2%3A10%2C%204%3A180%2C%205%3A180%2C%207%3A-20%2C%209%3A30%7D%2C%20N%3DN)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(np%2C%20xr)%3A%0A%0A%20%20%20%20def%20grating_x_da(%0A%20%20%20%20%20%20%20%20total_area%3D100%2C%0A%20%20%20%20%20%20%20%20used_area%3D30%2C%0A%20%20%20%20%20%20%20%20line_width%3D1%2C%0A%20%20%20%20%20%20%20%20N%3D600%2C%0A%20%20%20%20%20%20%20%20overall_offset_x%3D0%2C%0A%20%20%20%20%20%20%20%20overall_offset_y%3D0%2C%0A%20%20%20%20)%3A%0A%20%20%20%20%20%20%20%20%22%22%22%0A%20%20%20%20%20%20%20%20Generate%20a%202D%20vertical%20grating%20pattern%20with%20perfectly%20aligned%2C%0A%20%20%20%20%20%20%20%20full-width%20stripes%20and%20no%20edge%20leftovers.%0A%20%20%20%20%20%20%20%20%22%22%22%0A%20%20%20%20%20%20%20%20%23%20---%20Grid%20---%0A%20%20%20%20%20%20%20%20x%20%3D%20np.linspace(-total_area%2C%20total_area%2C%20N%2C%20endpoint%3DFalse)%0A%20%20%20%20%20%20%20%20y%20%3D%20np.linspace(-total_area%2C%20total_area%2C%20N%2C%20endpoint%3DFalse)%0A%20%20%20%20%20%20%20%20X%2C%20Y%20%3D%20np.meshgrid(x%2C%20y%2C%20indexing%3D%22ij%22)%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Correct%20cutoff%20to%20nearest%20multiple%20of%20period%20(2*line_width)%20---%0A%20%20%20%20%20%20%20%20period%20%3D%202%20*%20line_width%0A%20%20%20%20%20%20%20%20full_extent%20%3D%20(used_area%20%2F%2F%20period)%20*%20period%0A%20%20%20%20%20%20%20%20cutoff%20%3D%20full_extent%20%2F%202%20%20%23%20symmetric%20half-width%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Define%20shifted%20coordinates%20---%0A%20%20%20%20%20%20%20%20Xs%20%3D%20X%20-%20overall_offset_x%0A%20%20%20%20%20%20%20%20Ys%20%3D%20Y%20-%20overall_offset_y%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Inside%20aperture%20---%0A%20%20%20%20%20%20%20%20inside%20%3D%20(np.abs(Xs)%20%3C%3D%20cutoff)%20%26%20(np.abs(Ys)%20%3C%3D%20used_area)%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Periodic%20grating%20mask%20(modulo-based%2C%20robust%20to%20float%20rounding)%20---%0A%20%20%20%20%20%20%20%20local_x%20%3D%20(Xs%20%2B%20cutoff)%20%25%20(2%20*%20line_width)%0A%20%20%20%20%20%20%20%20line_mask%20%3D%20local_x%20%3C%20line_width%20%20%23%201st%20half%20%3D%20bright%20line%0A%0A%20%20%20%20%20%20%20%20%23%20---%20Final%20pattern%20---%0A%20%20%20%20%20%20%20%20pattern%20%3D%20np.where(inside%20%26%20line_mask%2C%201.0%2C%200.0)%0A%0A%20%20%20%20%20%20%20%20da%20%3D%20xr.DataArray(%0A%20%20%20%20%20%20%20%20%20%20%20%20pattern%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20coords%3D%7B%22x%22%3A%20x%2C%20%22y%22%3A%20y%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20dims%3D(%22x%22%2C%20%22y%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20attrs%3D%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22dx%22%3A%20(2%20*%20total_area%20%2F%20N)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22dy%22%3A%20(2%20*%20total_area%20%2F%20N)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22N%22%3A%20N%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22cutoff%22%3A%20cutoff%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22period%22%3A%20period%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20)%0A%0A%20%20%20%20%20%20%20%20return%20da%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(shapes%2C%20xr)%3A%0A%20%20%20%20def%20grating_x(total_area%3D100%2C%20used_area%3D30%2C%20line_width%3D1%2C%20N%3D600%2C%20overall_offset_x%3D0%2C%20overall_offset_y%3D0)%3A%0A%20%20%20%20%20%20%20%20iterations%20%3D%20used_area%20%2F%2F%20line_width%0A%20%20%20%20%20%20%20%20lines%20%3D%20%5B%5D%0A%20%20%20%20%20%20%20%20for%20i%20in%20range(iterations)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20offset_x%20%3D%20-used_area%20%2B%20%202*line_width*i%0A%20%20%20%20%20%20%20%20%20%20%20%20lines.append(shapes.top_hat_2d_da(N%2C%20N%2C%20overall_offset_x%2Boffset_x%2C%20overall_offset_x%2Boffset_x%2Bline_width%2Coverall_offset_y-used_area%2Coverall_offset_y%2Bused_area%2C%20-total_area%2C%20total_area%2C%20-total_area%2C%20total_area))%0A%20%20%20%20%20%20%20%20return%20xr.concat(lines%2C%20dim%3D%22i%22).sum('i')%0A%0A%20%20%20%20return%20(grating_x%2C)%0A%0A%0A%40app.cell%0Adef%20_(shapes%2C%20xr)%3A%0A%20%20%20%20def%20grating_y(total_area%3D100%2C%20used_area%3D30%2C%20line_width%3D1%2C%20N%3D600%2C%20overall_offset_x%3D0%2C%20overall_offset_y%3D0)%3A%0A%20%20%20%20%20%20%20%20iterations%20%3D%20used_area%20%2F%2F%20line_width%0A%20%20%20%20%20%20%20%20lines%20%3D%20%5B%5D%0A%20%20%20%20%20%20%20%20for%20i%20in%20range(iterations)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20offset_y%20%3D%20-used_area%20%2B%20%202*line_width*i%0A%20%20%20%20%20%20%20%20%20%20%20%20lines.append(shapes.top_hat_2d_da(N%2C%20N%2Coverall_offset_x-used_area%2Coverall_offset_x%2Bused_area%2C%20overall_offset_y%2Boffset_y%2C%20overall_offset_y%2Boffset_y%2Bline_width%2C%20-total_area%2C%20total_area%2C%20-total_area%2C%20total_area))%0A%20%20%20%20%20%20%20%20return%20xr.concat(lines%2C%20dim%3D%22i%22).sum('i')%0A%20%20%20%20return%20(grating_y%2C)%0A%0A%0A%40app.cell%0Adef%20_(N%2C%20grating_x%2C%20grating_y)%3A%0A%20%20%20%20lines%20%3D%20grating_y(overall_offset_y%20%3D%20-40%2C%20N%20%3D%20N)%20%2B%20grating_x(overall_offset_y%20%3D%2040%2C%20N%3DN)%20%0A%20%20%20%20return%20(lines%2C)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(%0A%20%20%20%20%20%20%20%20r%22%22%22%0A%20%20%20%20%23%20Gratings%20and%20their%20imaging%0A%20%20%20%20Starting%20with%20a%20basic%20usecase%20-%20horizontal%20and%20vertical%20lines%20we%20will%20show%20the%20impact%20of%20some%20imaging%20distortions.%0A%20%20%20%20%22%22%22%0A%20%20%20%20)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(lines%2C%20plt)%3A%0A%20%20%20%20plt.imshow(lines)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(fourier%2C%20lines%2C%20shapes)%3A%0A%20%20%20%20ft_lines_zeroed%20%3D%20shapes.zero_outside_radius(fourier.ft2d(lines)%2C%201.5)%0A%20%20%20%20return%20(ft_lines_zeroed%2C)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(r%22%22%22If%20we%20take%20a%20fouriertransform%20of%20such%20a%20structure%20-%20and%20limit%20the%20redius%20slightly%20-%20we%20still%20get%20a%20very%20good%20image%20of%20the%20original.%20The%20plots%20have%20a%20reduced%20density%20compared%20to%20the%20actual%20calculations.%22%22%22)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(ft_lines_zeroed%2C%20plot%2C%20shapes)%3A%0A%20%20%20%20plot.complex_surface(shapes.reduce_density(ft_lines_zeroed%2C%202%2C%202))%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(fourier%2C%20ft_lines_zeroed)%3A%0A%20%20%20%20image_lines%20%3D%20fourier.ft2d(ft_lines_zeroed)%0A%20%20%20%20return%20(image_lines%2C)%0A%0A%0A%40app.cell%0Adef%20_(image_lines%2C%20plot%2C%20shapes)%3A%0A%20%20%20%20plot.real_surface(shapes.reduce_density(abs(image_lines)%2C%202%2C%202))%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(%0A%20%20%20%20%20%20%20%20r%22%22%22%0A%20%20%20%20%23%20Zernikes%0A%20%20%20%20Aberations%20are%20added%20via%20zernikes%20in%20an%20additional%20exponent%20(explanation%20in%20a%20later%20update).%0A%0A%20%20%20%20Let's%20start%20with%20a%20simple%20case%20of%20some%20amount%20of%20Zernike%204%20-%20which%20results%20in%20a%20defocus.%0A%20%20%20%20%22%22%22%0A%20%20%20%20)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20max_zenike%20%3D%2025%0A%20%20%20%20return%20(max_zenike%2C)%0A%0A%0A%40app.cell%0Adef%20_(max_zenike%2C%20mo)%3A%0A%20%20%20%20zernike_sliders%3D%20%7Bi%20%3A%20mo.ui.slider(start%3D-40%2C%20stop%3D40%2C%20step%3D0.2%2C%20value%3D0%2C%20show_value%3DTrue%2C%20full_width%3DTrue)%20for%20i%20in%20range(2%2C%20max_zenike%2B1)%7D%0A%20%20%20%20return%20(zernike_sliders%2C)%0A%0A%0A%40app.cell%0Adef%20_(zernike_sliders)%3A%0A%20%20%20%20def%20split_into_columns(d%3A%20dict%2C%20ncols%3A%20int%20%3D%203)%3A%0A%20%20%20%20%20%20%20%20items%20%3D%20list(d.items())%0A%20%20%20%20%20%20%20%20total%20%3D%20len(items)%0A%20%20%20%20%20%20%20%20base%2C%20extra%20%3D%20divmod(total%2C%20ncols)%0A%0A%20%20%20%20%20%20%20%20columns%20%3D%20%5B%5D%0A%20%20%20%20%20%20%20%20start%20%3D%200%0A%20%20%20%20%20%20%20%20for%20i%20in%20range(ncols)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20end%20%3D%20start%20%2B%20base%20%2B%20(1%20if%20i%20%3C%20extra%20else%200)%0A%20%20%20%20%20%20%20%20%20%20%20%20columns.append(items%5Bstart%3Aend%5D)%0A%20%20%20%20%20%20%20%20%20%20%20%20start%20%3D%20end%0A%20%20%20%20%20%20%20%20return%20columns%0A%0A%20%20%20%20columns%20%3D%20split_into_columns(zernike_sliders%2C%203)%0A%20%20%20%20return%20(split_into_columns%2C)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20apply_button%20%3D%20mo.ui.button(value%3DTrue%2C%20label%3D%22apply%22)%0A%20%20%20%20return%20(apply_button%2C)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(%0A%20%20%20%20%20%20%20%20r%22%22%22%0A%20%20%20%20%23%20Zernike%20sliders%0A%20%20%20%20Below%20you%20can%20use%20the%20zernike%20sliders%20to%20adjsut%20the%20image%20%0A%20%20%20%20interesting%20use-cases%3A%20%0A%0A%20%20%20%201.%20Z2%20%3D%204%0A%20%20%20%20%20%20%20%20*%20Z2%20is%20pure%20overlay%0A%20%20%20%20%20%20%20%20*%20Also%20try%20Z3%0A%20%20%20%202.%20Z4%20%3D%204%0A%20%20%20%20%20%20%20%20*%20Z4%20changes%20the%20focus%20for%20all%20lines%0A%20%20%20%203.%20Z4%20%3D%204%20and%20Z5%20%3D%204%0A%20%20%20%20%20%20%20%20*%20Z4%20changes%20the%20focus%20for%20all%20lines%2C%20Z5%20changes%20the%20focus%20-%20but%20it%20depends%20on%20orientation%0A%20%20%20%204.%20Z4%20%3D%204%20and%20Z5%20%3D%20-4%0A%20%20%20%20%20%20%20%20*%20Notice%20how%20this%20is%20the%20opposite%20of%20the%20previous%20experiment%3F%0A%20%20%20%205.%20Z7%20%3D%204%0A%20%20%20%20%20%20%20%20*%20Coma%20is%20an%20overlay%20effect%20-%20and%20feature%20dependent%0A%20%20%20%20%20%20%20%20*%20Also%20try%20Z8%0A%0A%20%20%20%20For%20large%20overlay%20effects%20the%20periodic%20boundary%20becomes%20visible%0A%20%20%20%20%22%22%22%0A%20%20%20%20)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(apply_button%2C%20mo%2C%20split_into_columns%2C%20zernike_sliders)%3A%0A%20%20%20%20sliders_reshaped%20%3D%20split_into_columns(zernike_sliders)%0A%20%20%20%20mo.vstack(%5B%0A%20%20%20%20%20%20%20%20mo.hstack(%5Bmo.vstack(%5Bmo.hstack(%5Bi%5B0%5D%2C%20i%5B1%5D%5D)%20for%20i%20in%20col%5D)%20for%20col%20in%20sliders_reshaped%5D)%2C%20apply_button%0A%20%20%20%20%5D)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(apply_button%2C%20zernike_sliders)%3A%0A%20%20%20%20v%20%3D%20apply_button.value%0A%20%20%20%20zernike_values%20%3D%20%7Bk%3A%20v.value%20for%20k%2C%20v%20in%20zernike_sliders.items()%7D%0A%20%20%20%20return%20(zernike_values%2C)%0A%0A%0A%40app.cell%0Adef%20_(lines%2C%20zernike_values%2C%20zernikes)%3A%0A%20%20%20%20distortion%20%3D%20zernikes.zernike_aberration(zernike_values%2C%20N%3Dlen(lines))%0A%20%20%20%20return%20(distortion%2C)%0A%0A%0A%40app.cell%0Adef%20_(fourier%2C%20np%2C%20shapes%2C%20zernikes)%3A%0A%20%20%20%20def%20fourier_optics(mask%2C%20distortion%3DNone%2C%20radius%3DNone)%3A%0A%20%20%20%20%20%20%20%20ft%20%3D%20fourier.ft2d(mask)%0A%20%20%20%20%20%20%20%20if%20radius%20is%20None%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20radius%20%3D%20float(ft.x.max())%0A%20%20%20%20%20%20%20%20ft_radius_applied%20%3D%20shapes.zero_outside_radius(ft%2C%20radius)%0A%20%20%20%20%20%20%20%20if%20distortion%20is%20not%20None%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20if%20isinstance(distortion%2C%20dict)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20distortion%20%3D%20zernikes.zernike_aberration(distortion%2C%20N%3Dlen(mask.x))%0A%20%20%20%20%20%20%20%20%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20distortion.N%20%3D%20len(mask.x)%0A%20%20%20%20%20%20%20%20%20%20%20%20distored_ft%20%3D%20ft_radius_applied%20*%20np.exp(complex(0%2C%201)*2*np.pi*%20distortion.sample())%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20fourier.ft2d(distored_ft)%0A%20%20%20%20%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20fourier.ft2d(ft_radius_applied)%0A%20%20%20%20return%20(fourier_optics%2C)%0A%0A%0A%40app.cell%0Adef%20_(distortion%2C%20fourier_optics%2C%20lines)%3A%0A%20%20%20%20lines_imaged%20%3D%20fourier_optics(lines%2C%20distortion%3Ddistortion%2C%20radius%20%3D%20None)%0A%20%20%20%20return%20(lines_imaged%2C)%0A%0A%0A%40app.cell%0Adef%20_(lines_imaged%2C%20plt)%3A%0A%20%20%20%20plt.imshow(abs(lines_imaged))%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(lines_imaged%2C%20plot%2C%20shapes)%3A%0A%20%20%20%20plot.real_surface(shapes.reduce_density(abs(lines_imaged)%2C%202%2C%202))%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(%0A%20%20%20%20%20%20%20%20r%22%22%22%0A%20%20%20%20%23%20Quick%20demo%20of%20a%20small%20radius%20%0A%20%20%20%20The%20individual%20lines%20fall%20below%20the%20threshold%20of%20what%20can%20be%20imaged%20-%20they%20all%20melt%20into%20the%20square%20blocks%20that%20are%20then%20the%20same%20total%20volume%20(and%20therefore%20half%20the%20height)%0A%20%20%20%20%22%22%22%0A%20%20%20%20)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(fourier_optics%2C%20lines%2C%20plot%2C%20shapes)%3A%0A%20%20%20%20plot.real_surface(%0A%20%20%20%20%20%20%20%20shapes.reduce_density(%0A%20%20%20%20%20%20%20%20%20%20%20%20abs(%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20fourier_optics(lines%2C%20radius%3D.2)%0A%20%20%20%20%20%20%20%20%20%20%20%20)%2C%0A%20%20%20%20%20%20%20%203%2C%203)%0A%20%20%20%20)%0A%20%20%20%20return%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run()%0A</marimo-code></head>
   <body>
     <div id="root"></div>
-    <!-- This is a portal for the data editor to render in -->
-    <div id="portal" data-testid="glide-portal" style="position: fixed; left: 0; top: 0; z-index: 9999"></div>
-    <script data-marimo="true">
-      window.__MARIMO_MOUNT_CONFIG__ = {
-            "filename": "notebook.py",
-            "cwd": "",
-            "mode": "read",
-            "version": "0.22.4",
-            "serverToken": "unused",
-            "config": {"ai": {"custom_providers": {}, "models": {"custom_models": [], "displayed_models": []}}, "completion": {"activate_on_typing": true, "copilot": false, "signature_hint_on_typing": false}, "diagnostics": {"sql_linter": true}, "display": {"cell_output": "above", "code_editor_font_size": 14, "dataframes": "rich", "default_table_max_columns": 50, "default_table_page_size": 10, "default_width": "medium", "reference_highlighting": true, "theme": "light"}, "formatting": {"line_length": 79}, "keymap": {"overrides": {}, "preset": "default"}, "language_servers": {"pylsp": {"enable_flake8": false, "enable_mypy": true, "enable_pydocstyle": false, "enable_pyflakes": false, "enable_pylint": false, "enable_ruff": true, "enabled": false}}, "mcp": {"mcpServers": {}, "presets": []}, "package_management": {"manager": "pip"}, "runtime": {"auto_instantiate": false, "auto_reload": "off", "default_csv_encoding": "utf-8", "default_sql_output": "auto", "on_cell_change": "autorun", "output_max_bytes": 8000000, "reactive_tests": true, "show_tracebacks": false, "std_stream_max_bytes": 1000000, "watcher_on_save": "lazy"}, "save": {"autosave": "off", "autosave_delay": 1000, "format_on_save": false}, "server": {"browser": "default", "follow_symlink": false}, "snippets": {"custom_paths": [], "include_default_snippets": true}},
-            "configOverrides": {},
-            "appConfig": {"sql_output": "auto", "width": "medium"},
-            "view": {"showAppCode": false},
-            "notebook": null,
-            "session": null,
-            "runtimeConfig": null,
-        };
-    </script>
   </body>
 </html>

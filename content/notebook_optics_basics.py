@@ -17,27 +17,22 @@ def _():
 
 @app.cell
 async def _(sys):
+    wheel_name = "goodoptics-0.1.0-py3-none-any.whl"
+    wheel_local = "./dist/" + wheel_name
+    wheel_remote = "https://benched.github.io/basic_litho_sim/" + wheel_name
+
+    is_pyodide = "pyodide" in sys.modules
+
     if "pyodide" in sys.modules:
         import micropip
-        from pyodide.http import pyfetch
-
-        manifest_response = await pyfetch("./goodoptics-wheel.json")
-        if not manifest_response.ok:
-            raise RuntimeError(
-                f"Could not load wheel manifest (HTTP {manifest_response.status})."
-            )
-        wheel_manifest = await manifest_response.json()
-
         await micropip.install("plotly")
         await micropip.install("sympy")
-        await micropip.install(f"./{wheel_manifest['wheel_filename']}")
+        await micropip.install(wheel_remote)
     else:
-        try:
-            import goodoptics  # noqa: F401
-        except ModuleNotFoundError as exc:
-            raise ModuleNotFoundError(
-                "Install the project first with `python -m pip install -e \".[dev]\"`."
-            ) from exc
+        import subprocess, pathlib
+        import os
+        wheel = wheel_local # wheel_local if os.path.exists(wheel_local) else wheel_remote
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q", wheel], check=True)
     return
 
 
