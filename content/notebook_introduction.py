@@ -703,7 +703,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.image(r"C:\Users\steve\Documents\python\basic_litho_sim\content\figures\npn_transistor.png")
+    mo.image("content/figures/npn_transistor.png")
     return
 
 
@@ -717,7 +717,7 @@ app._unparsable_cell(
 
 @app.cell
 def _(mo):
-    mo.image(r"C:\Users\steve\Documents\python\basic_litho_sim\content\figures\pnp_transistor.png")
+    mo.image("content/figures/pnp_transistor.png")
     return
 
 
@@ -731,7 +731,10 @@ app._unparsable_cell(
 
 @app.cell
 def _(mo):
-    mo.image(r"C:\Users\steve\Documents\python\basic_litho_sim\content\figures\CMOS_Inverter.svg",caption="CMOS inverter source: https://commons.wikimedia.org/wiki/File:CMOS_Inverter.svg")
+    mo.image(
+        "content/figures/CMOS_Inverter.svg",
+        caption="CMOS inverter source: https://commons.wikimedia.org/wiki/File:CMOS_Inverter.svg",
+    )
     return
 
 
