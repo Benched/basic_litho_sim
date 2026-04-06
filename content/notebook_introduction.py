@@ -136,7 +136,7 @@ def _(mo):
 @app.cell
 def _(last_valid, mo, set_valid):
     def validate_binary(new_value):
-        if all(ch in "01" for ch in new_value):
+        if new_value and all(ch in "01" for ch in new_value):
             set_valid(new_value)
         else:
             set_valid(last_valid())
@@ -153,11 +153,12 @@ def _(last_valid, mo, set_valid):
 
 
 @app.cell
-def _(binary_text_input, mo, validate_binary):
+def _(binary_text_input, last_valid, mo, validate_binary):
     try:
         binary_converted_to_integer = int(binary_text_input.value, 2)
-    except:
+    except ValueError:
         validate_binary(binary_text_input.value)
+        binary_converted_to_integer = int(last_valid(), 2)
 
     mo.hstack([
         binary_text_input, mo.md(f"equals: {binary_converted_to_integer}")
@@ -703,7 +704,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.image(r"C:\Users\steve\Documents\python\basic_litho_sim\content\figures\npn_transistor.png")
+    mo.image("content/figures/npn_transistor.png")
     return
 
 
@@ -717,7 +718,7 @@ app._unparsable_cell(
 
 @app.cell
 def _(mo):
-    mo.image(r"C:\Users\steve\Documents\python\basic_litho_sim\content\figures\pnp_transistor.png")
+    mo.image("content/figures/pnp_transistor.png")
     return
 
 
@@ -731,7 +732,7 @@ app._unparsable_cell(
 
 @app.cell
 def _(mo):
-    mo.image(r"C:\Users\steve\Documents\python\basic_litho_sim\content\figures\CMOS_Inverter.svg",caption="CMOS inverter source: https://commons.wikimedia.org/wiki/File:CMOS_Inverter.svg")
+    mo.image("content/figures/CMOS_Inverter.svg",caption="CMOS inverter source: https://commons.wikimedia.org/wiki/File:CMOS_Inverter.svg")
     return
 
 
