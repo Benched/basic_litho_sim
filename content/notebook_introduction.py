@@ -196,8 +196,10 @@ def _(mo):
     return
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
     ### OR operator
     | input 1 | input 2 | output |
     |---|---|---|
@@ -205,9 +207,9 @@ app._unparsable_cell(
     | 0 | 1 | 1 |
     | 1 | 0 | 1 |
     | 1 | 1 | 1 |
-    """,
-    name="_"
-)
+    """
+    )
+    return
 
 
 @app.cell
@@ -708,12 +710,14 @@ def _(mo):
     return
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
     Another type of transistor, called a PMOS, conducts when the voltage on its gate is low. In this device, the source is typically connected to the higher supply voltage, and current flows from source to drain when the transistor is on. The drain then serves as the output, and the gate voltage controls whether that path is open or closed.
-    """,
-    name="_"
-)
+    """
+    )
+    return
 
 
 @app.cell
@@ -722,12 +726,14 @@ def _(mo):
     return
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
     Combining these two transistors in a the cingle circuit below we get the inverter:
-    """,
-    name="_"
-)
+    """
+    )
+    return
 
 
 @app.cell
@@ -775,12 +781,14 @@ def _(mo):
     return
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
     The second very nice propery, we can implement it in CMOS logic with only 4 transistors (compared to 6 for AND)
-    """,
-    name="_"
-)
+    """
+    )
+    return
 
 
 @app.cell
