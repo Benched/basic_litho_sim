@@ -17,26 +17,39 @@ def _():
 @app.cell
 async def _(sys):
     wheel_name = "goodoptics-0.1.0-py3-none-any.whl"
-    wheel_local = "./dist/" + wheel_name
     wheel_remote = "https://benched.github.io/basic_litho_sim/" + wheel_name
-
-    is_pyodide = "pyodide" in sys.modules
 
     if "pyodide" in sys.modules:
         import micropip
         await micropip.install("plotly")
         await micropip.install("sympy")
-        await micropip.install(wheel_remote)
+        if "goodoptics" not in sys.modules:
+            await micropip.install(wheel_remote)
     else:
-        import subprocess, pathlib
-        import os
-        wheel = wheel_local # wheel_local if os.path.exists(wheel_local) else wheel_remote
-        subprocess.run([sys.executable, "-m", "pip", "install", "-q", wheel], check=True)
-    return
+        from pathlib import Path
+
+        candidate_paths = []
+        notebook_file = globals().get("__file__")
+        if notebook_file is not None:
+            candidate_paths.append(Path(notebook_file).resolve().parents[1] / "src")
+        candidate_paths.extend([Path.cwd() / "src", Path.cwd().parent / "src"])
+
+        for src_path in candidate_paths:
+            if src_path.exists():
+                src_path_str = str(src_path)
+                if src_path_str not in sys.path:
+                    sys.path.insert(0, src_path_str)
+                break
+        else:
+            raise ModuleNotFoundError(
+                "Could not locate src/goodoptics for local notebook execution."
+            )
+    goodoptics_ready = True
+    return (goodoptics_ready,)
 
 
 @app.cell
-def _():
+def _(goodoptics_ready):
     from goodoptics import zernikes, fourier, plot, shapes
     return fourier, plot, shapes, zernikes
 

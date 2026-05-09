@@ -14,13 +14,53 @@ def _():
     import xarray as xr
     import matplotlib.pyplot as plt
     import inspect
-    import shapes
-    import utils
-    import fourier
-    import plot
+    import sys
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
-    return fourier, inspect, mo, np, plot, plt, shapes, utils
+
+    return inspect, mo, np, plt, sys
+
+
+@app.cell
+async def _(sys):
+    wheel_name = "goodoptics-0.1.0-py3-none-any.whl"
+    wheel_remote = "https://benched.github.io/basic_litho_sim/" + wheel_name
+
+    if "pyodide" in sys.modules:
+        import micropip
+
+        await micropip.install("plotly")
+        await micropip.install("sympy")
+        if "goodoptics" not in sys.modules:
+            await micropip.install(wheel_remote)
+    else:
+        from pathlib import Path
+
+        candidate_paths = []
+        notebook_file = globals().get("__file__")
+        if notebook_file is not None:
+            candidate_paths.append(Path(notebook_file).resolve().parents[1] / "src")
+        candidate_paths.extend([Path.cwd() / "src", Path.cwd().parent / "src"])
+
+        for src_path in candidate_paths:
+            if src_path.exists():
+                src_path_str = str(src_path)
+                if src_path_str not in sys.path:
+                    sys.path.insert(0, src_path_str)
+                break
+        else:
+            raise ModuleNotFoundError(
+                "Could not locate src/goodoptics for local notebook execution."
+            )
+
+    goodoptics_ready = True
+    return (goodoptics_ready,)
+
+
+@app.cell
+def _(goodoptics_ready):
+    from goodoptics import fourier, plot, shapes, utils
+    return fourier, plot, shapes, utils
 
 
 @app.cell(hide_code=True)
