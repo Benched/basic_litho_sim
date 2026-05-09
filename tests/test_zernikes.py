@@ -234,6 +234,46 @@ def test_fit_zernikes_to_da():
         )
 
 
+def test_fit_zernikes_to_da_respects_explicit_indices():
+    za_true = zernike_aberration({1: 0.25, 5: -0.15}, N=140)
+    da = za_true.sample_da()
+
+    za_fit = fit_zernikes_to_da(da, indeces=[1, 5])
+
+    assert list(za_fit.coefficients.zernike.values) == [1, 5]
+    for j in [1, 5]:
+        np.testing.assert_almost_equal(
+            float(za_true.coefficients.sel(zernike=j).values),
+            float(za_fit.coefficients.sel(zernike=j).values),
+            decimal=5,
+        )
+
+
+def test_fit_zernikes_to_da_requires_indices_or_max_j():
+    da = zernike_aberration({1: 0.2}, N=80).sample_da()
+
+    with pytest.raises(ValueError, match="Either max_j or indeces must be provided."):
+        fit_zernikes_to_da(da)
+
+
+def test_fit_zernikes_to_da_rejects_non_2d_input():
+    da = xr.DataArray(np.linspace(0.0, 1.0, 6), dims=("x",), coords={"x": np.arange(6)})
+
+    with pytest.raises(ValueError, match="Input DataArray must be 2-dimensional."):
+        fit_zernikes_to_da(da, max_j=3)
+
+
+def test_fit_zernikes_to_da_rejects_non_square_input():
+    da = xr.DataArray(
+        np.zeros((3, 4)),
+        dims=("x", "y"),
+        coords={"x": np.arange(3), "y": np.arange(4)},
+    )
+
+    with pytest.raises(ValueError, match="Input DataArray must be square"):
+        fit_zernikes_to_da(da, max_j=3)
+
+
 def test_zernike_aberration_sample_caching_behavior():
     import numpy as np
 

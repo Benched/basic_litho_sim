@@ -48,3 +48,16 @@ Export the notebooks for GitHub Pages:
 ```powershell
 .\build_notebooks.bat
 ```
+
+## Testing strategy
+
+The test suite is split into two layers:
+
+- Library tests in `tests/` check the numerical behavior of the reusable `goodoptics` modules.
+- Notebook integration tests in `tests/test_notebooks.py` treat the main Marimo notebooks as entry points and verify that they start in headless mode, export to HTML/WASM, and keep using the local `goodoptics` bootstrap instead of legacy bare helper imports.
+
+Use these checks as a simple rule of thumb:
+
+- Run `python -m pytest -q` before merging any change.
+- Run `python -m pytest -q tests\test_notebooks.py` after changing notebook imports, notebook bootstrap code, the `src/` package layout, or notebook export behavior.
+- Rebuild the static notebooks with `.\build_notebooks.bat` when a notebook change affects rendered content and you want a final manual check of the GitHub Pages output.
