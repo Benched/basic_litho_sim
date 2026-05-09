@@ -301,3 +301,42 @@ def test_apply_xy_lims_to_da():
     assert shapes.apply_xy_lims_to_da(da, [1, 2], [-1, 1]).equals(expected_y), "apply_xy_lims_to_da() failed for simultaneous x/y limits"
     assert shapes.apply_xy_lims_to_da(da, [1, 2], None).equals(expected_y), "x-only limit should include all y and match combined x/y result"
     assert shapes.apply_xy_lims_to_da(da, None, [-0.5, 0.5]).equals(expected_x),  "y-only limit around zero should yield only the middle row (y=0)"
+
+
+def test_quadratic_decay_2d_matches_formula():
+    da = shapes.quadratic_decay_2d_da(
+        nx=4,
+        ny=3,
+        xmin=-1.0,
+        xmax=1.0,
+        ymin=-2.0,
+        ymax=2.0,
+    )
+
+    x = da.coords["x"].values
+    y = da.coords["y"].values
+    X, Y = np.meshgrid(x, y, indexing="ij")
+    expected = 1.0 / (1.0 + X**2 + Y**2)
+
+    assert da.shape == (4, 3)
+    np.testing.assert_allclose(da.values, expected)
+    np.testing.assert_allclose(da.dx, 0.5)
+    np.testing.assert_allclose(da.dy, 4.0 / 3.0)
+
+
+def test_zero_outside_radius_preserves_interior_and_masks_exterior():
+    da = xr.DataArray(
+        np.arange(9).reshape(3, 3),
+        coords={"x": [-1.0, 0.0, 1.0], "y": [-1.0, 0.0, 1.0]},
+        dims=("x", "y"),
+    )
+
+    masked = shapes.zero_outside_radius(da, radius=0.75)
+
+    expected = xr.DataArray(
+        np.array([[0, 0, 0], [0, 4, 0], [0, 0, 0]]),
+        coords=da.coords,
+        dims=da.dims,
+    )
+
+    assert masked.equals(expected)

@@ -171,3 +171,70 @@ def test_ft_gaussian_2d_accuracy(nx, ny, xmin, xmax, ymin, ymax, sigma_x, sigma_
 
     # --- assert reasonable agreement ---
     assert max_relative_error < 1e-5, f"Max relative error too high: {max_relative_error:.2e}"
+
+
+def test_shifted_gaussian_2d_fourier_transform_matches_theory():
+    nx = ny = 192
+    xmin, xmax = -10.0, 10.0
+    ymin, ymax = -9.0, 9.0
+    sigma_x, sigma_y = 1.2, 0.8
+    normalization = 1.0
+    x0, y0 = 1.5, -0.75
+
+    shifted_gaussian = utils.sample_fn_2d(
+        lambda x, y: shapes.gaussian_fn_2d(
+            x - x0,
+            y - y0,
+            sigma_x=sigma_x,
+            sigma_y=sigma_y,
+            normalization=normalization,
+        ),
+        nx,
+        ny,
+        xmin,
+        xmax,
+        ymin,
+        ymax,
+        as_da=True,
+    )
+    ft_numerical = fourier.ft2d(shifted_gaussian)
+
+    kx = ft_numerical.coords["x"].values
+    ky = ft_numerical.coords["y"].values
+    ft_theory = shapes.ft_gaussian_2d(
+        kx,
+        ky,
+        sigma_x=sigma_x,
+        sigma_y=sigma_y,
+        normalization=normalization,
+        x0=x0,
+        y0=y0,
+        as_da=True,
+    )
+
+    theory_values = ft_theory.values
+    mask = np.abs(theory_values) > (1e-6 * np.abs(theory_values).max())
+    relative_error = np.max(
+        np.abs(ft_numerical.values[mask] - theory_values[mask]) / np.abs(theory_values[mask])
+    )
+
+    assert relative_error < 2e-2, f"Shifted Gaussian FT relative error too high: {relative_error:.2e}"
+
+
+def test_ft_gaussian_2d_as_da_false_returns_ndarray():
+    kx = np.array([-0.5, 0.0, 0.5])
+    ky = np.array([-0.25, 0.25])
+
+    ft_values = shapes.ft_gaussian_2d(
+        kx,
+        ky,
+        sigma_x=1.1,
+        sigma_y=0.7,
+        normalization=2.0,
+        x0=0.3,
+        y0=-0.4,
+        as_da=False,
+    )
+
+    assert isinstance(ft_values, np.ndarray)
+    assert ft_values.shape == (len(kx), len(ky))
