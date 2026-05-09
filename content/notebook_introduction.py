@@ -136,7 +136,7 @@ def _(mo):
 @app.cell
 def _(last_valid, mo, set_valid):
     def validate_binary(new_value):
-        if all(ch in "01" for ch in new_value):
+        if new_value and all(ch in "01" for ch in new_value):
             set_valid(new_value)
         else:
             set_valid(last_valid())
@@ -153,11 +153,12 @@ def _(last_valid, mo, set_valid):
 
 
 @app.cell
-def _(binary_text_input, mo, validate_binary):
+def _(binary_text_input, last_valid, mo, validate_binary):
     try:
         binary_converted_to_integer = int(binary_text_input.value, 2)
-    except:
+    except ValueError:
         validate_binary(binary_text_input.value)
+        binary_converted_to_integer = int(last_valid(), 2)
 
     mo.hstack([
         binary_text_input, mo.md(f"equals: {binary_converted_to_integer}")
@@ -195,8 +196,10 @@ def _(mo):
     return
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
     ### OR operator
     | input 1 | input 2 | output |
     |---|---|---|
@@ -204,9 +207,9 @@ app._unparsable_cell(
     | 0 | 1 | 1 |
     | 1 | 0 | 1 |
     | 1 | 1 | 1 |
-    """,
-    name="_"
-)
+    """
+    )
+    return
 
 
 @app.cell
@@ -703,35 +706,39 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.image(r"C:\Users\steve\Documents\python\basic_litho_sim\content\figures\npn_transistor.png")
+    mo.image("content/figures/npn_transistor.png")
     return
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
     Another type of transistor, called a PMOS, conducts when the voltage on its gate is low. In this device, the source is typically connected to the higher supply voltage, and current flows from source to drain when the transistor is on. The drain then serves as the output, and the gate voltage controls whether that path is open or closed.
-    """,
-    name="_"
-)
-
-
-@app.cell
-def _(mo):
-    mo.image(r"C:\Users\steve\Documents\python\basic_litho_sim\content\figures\pnp_transistor.png")
+    """
+    )
     return
 
 
-app._unparsable_cell(
-    r"""
-    Combining these two transistors in a the cingle circuit below we get the inverter:
-    """,
-    name="_"
-)
+@app.cell
+def _(mo):
+    mo.image("content/figures/pnp_transistor.png")
+    return
 
 
 @app.cell
 def _(mo):
-    mo.image(r"C:\Users\steve\Documents\python\basic_litho_sim\content\figures\CMOS_Inverter.svg",caption="CMOS inverter source: https://commons.wikimedia.org/wiki/File:CMOS_Inverter.svg")
+    mo.md(
+        r"""
+    Combining these two transistors in a the cingle circuit below we get the inverter:
+    """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.image("content/figures/CMOS_Inverter.svg",caption="CMOS inverter source: https://commons.wikimedia.org/wiki/File:CMOS_Inverter.svg")
     return
 
 
@@ -774,12 +781,14 @@ def _(mo):
     return
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
     The second very nice propery, we can implement it in CMOS logic with only 4 transistors (compared to 6 for AND)
-    """,
-    name="_"
-)
+    """
+    )
+    return
 
 
 @app.cell
