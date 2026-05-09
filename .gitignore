@@ -12,7 +12,7 @@ __pycache__/
 *.py[cod]
 *.venv/
 *.egg-info/
-.litho_sim_venv/
+litho_sim_venv/
 .jupyterlite.doit.db
 
 # OS
