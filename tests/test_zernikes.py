@@ -166,6 +166,32 @@ def test_zernike_aberration_cache_reset_on_N_change():
         assert z._sample_cache is None, f"Zernike {z.j} sample cache should be reset to None after N change"
         assert z._sample_da_cache is None, f"Zernike {z.j} sample_da cache should be reset to None after N change"
 
+def test_zernike_sample_da_cache_tracks_radius():
+    z = zernike(3, 1)
+
+    da_radius_1 = z.sample_da(radius=1.0)
+    da_radius_2 = z.sample_da(radius=2.0)
+    da_radius_2_repeat = z.sample_da(radius=2.0)
+
+    assert da_radius_1 is not da_radius_2, "Changing radius should invalidate the cached DataArray"
+    assert da_radius_2 is da_radius_2_repeat, "Repeated calls with the same radius should reuse the cached DataArray"
+    np.testing.assert_allclose(da_radius_1.x.values, np.linspace(-1.0, 1.0, z.N, endpoint=z.endpoint))
+    np.testing.assert_allclose(da_radius_2.x.values, np.linspace(-2.0, 2.0, z.N, endpoint=z.endpoint))
+    np.testing.assert_allclose(da_radius_2.dx, 2 * da_radius_1.dx)
+
+def test_zernike_aberration_sample_da_cache_tracks_radius():
+    za = zernike_aberration({1: 0.2, 4: -0.1}, N=80)
+
+    da_radius_1 = za.sample_da(radius=1.0)
+    da_radius_15 = za.sample_da(radius=1.5)
+    da_radius_15_repeat = za.sample_da(radius=1.5)
+
+    assert da_radius_1 is not da_radius_15, "Changing radius should invalidate the aberration DataArray cache"
+    assert da_radius_15 is da_radius_15_repeat, "Repeated calls with the same radius should reuse the aberration DataArray cache"
+    np.testing.assert_allclose(da_radius_1.x.values, np.linspace(-1.0, 1.0, za.N, endpoint=False))
+    np.testing.assert_allclose(da_radius_15.x.values, np.linspace(-1.5, 1.5, za.N, endpoint=False))
+    np.testing.assert_allclose(da_radius_15.dx, 1.5 * da_radius_1.dx)
+
 def test_zernike_aberration_plots():
     za = zernikes.zernike_aberration({1:0.1, 2:0.2}, N=100)
     fig1 = za.plot()

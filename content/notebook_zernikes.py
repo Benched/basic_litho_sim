@@ -7,16 +7,62 @@ app = marimo.App(width="medium")
 @app.cell
 def _():
     import marimo as mo
-    import zernikes
-    from zernikes import zernike, plot_zernike_triangle, plotly_zernike_pyramid, fringe_to_nm, nm_to_fringe, zernike_aberration, fit_zernikes_to_da
+    import sys
     import numpy as np
     import xarray as xr
     import math
     import matplotlib.pyplot as plt
-    import plot
+    return mo, sys
+
+
+@app.cell
+async def _(sys):
+    wheel_name = "goodoptics-0.1.0-py3-none-any.whl"
+    wheel_remote = "https://benched.github.io/basic_litho_sim/" + wheel_name
+
+    if "pyodide" in sys.modules:
+        import micropip
+
+        await micropip.install("plotly")
+        await micropip.install("sympy")
+        if "goodoptics" not in sys.modules:
+            await micropip.install(wheel_remote)
+    else:
+        from pathlib import Path
+
+        candidate_paths = []
+        notebook_file = globals().get("__file__")
+        if notebook_file is not None:
+            candidate_paths.append(Path(notebook_file).resolve().parents[1] / "src")
+        candidate_paths.extend([Path.cwd() / "src", Path.cwd().parent / "src"])
+
+        for src_path in candidate_paths:
+            if src_path.exists():
+                src_path_str = str(src_path)
+                if src_path_str not in sys.path:
+                    sys.path.insert(0, src_path_str)
+                break
+        else:
+            raise ModuleNotFoundError(
+                "Could not locate src/goodoptics for local notebook execution."
+            )
+
+    goodoptics_ready = True
+    return (goodoptics_ready,)
+
+
+@app.cell
+def _(goodoptics_ready):
+    from goodoptics.zernikes import (
+        fit_zernikes_to_da,
+        plot_zernike_triangle,
+        plotly_zernike_pyramid,
+        zernike,
+        zernike_aberration,
+    )
+
     return (
         fit_zernikes_to_da,
-        mo,
         plot_zernike_triangle,
         plotly_zernike_pyramid,
         zernike,
@@ -40,25 +86,25 @@ def _(mo):
 
 @app.cell
 def _(zernike_aberration):
-    ab = zernike_aberration({2:1e-9, 9:5e-10, 8:-1e-9})
-    return (ab,)
+    ab_fit = zernike_aberration({2:1e-9, 9:5e-10, 8:-1e-9})
+    return (ab_fit,)
 
 
 @app.cell
-def _(ab, fit_zernikes_to_da):
-    result = fit_zernikes_to_da(ab.sample_da(), 25)
+def _(ab_fit, fit_zernikes_to_da):
+    result = fit_zernikes_to_da(ab_fit.sample_da(), 25)
     return (result,)
 
 
 @app.cell
-def _(ab, result):
-    result.coefficients - ab.coefficients
+def _(ab_fit, result):
+    result.coefficients - ab_fit.coefficients
     return
 
 
 @app.cell
-def _(ab):
-    ab.coefficients
+def _(ab_fit):
+    ab_fit.coefficients
     return
 
 

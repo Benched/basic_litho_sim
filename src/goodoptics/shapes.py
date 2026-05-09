@@ -1,7 +1,6 @@
 import numpy as np
 import xarray as xr
-import matplotlib
-from .utils import sample_fn,sample_fn_2d
+from .utils import sample_fn, sample_fn_2d
 
 
 def tophat_fn(x0, x1):
@@ -26,9 +25,6 @@ def tophat_fn_2d(x0, x1, y0, y1):
         y0, y1: vertical bounds of the "hat" (exclusive)
     """
     return lambda x, y: int(x0 < x < x1 and y0 < y < y1)
-
-def gaussian_fn_2d(x, y):
-    return np.exp(-np.pi * (x**2 + y**2))
 
 def gaussian_fn_2d(x, y, sigma_x=1.0, sigma_y=1.0, normalization=1.0):
     """2D Gaussian with independent σx, σy, normalized so the integral equals `normalization`.

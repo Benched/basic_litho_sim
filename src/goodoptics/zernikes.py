@@ -26,6 +26,7 @@ class zernike:
         self._endpoint = False
         self._sample_cache = None
         self._sample_da_cache = None
+        self._sample_da_cache_key = None
 
     @cached_property
     def _lambdified(self):
@@ -55,7 +56,8 @@ class zernike:
         """Return sampled DataArray with coordinates and metadata."""
         if N is not None and N != self._N:
             self.N = N
-        if recalc or self._sample_da_cache is None:
+        cache_key = radius
+        if recalc or self._sample_da_cache is None or self._sample_da_cache_key != cache_key:
             x = np.linspace(-radius, radius, self._N, endpoint=self._endpoint)
             dx = 2 * radius / (self._N - 1 if self._endpoint else self._N)
             data = self.sample(recalc=recalc)
@@ -66,6 +68,7 @@ class zernike:
                 attrs={"dx": dx, "dy": dx, "nx": self._N, "ny": self._N},
             )
             self._sample_da_cache = da
+            self._sample_da_cache_key = cache_key
         return self._sample_da_cache
 
     # ------------------------------------------------------------------
@@ -86,6 +89,7 @@ class zernike:
     def _invalidate_cache(self):
         self._sample_cache = None
         self._sample_da_cache = None
+        self._sample_da_cache_key = None
 
     @property
     def N(self):
@@ -134,6 +138,7 @@ class zernike_aberration():
         self._set_N_on_zernikes()
         self._cached_sample = None
         self._sample_da_cache = None
+        self._sample_da_cache_key = None
 
     def _set_N_on_zernikes(self):
         for z in self.zernikes:
@@ -146,9 +151,11 @@ class zernike_aberration():
         return self._cached_sample
 
     def sample_da(self, recalc_full_depth=False, *args, **kwargs):
-        if recalc_full_depth or self._sample_da_cache is None:
+        cache_key = (args, tuple(sorted(kwargs.items())))
+        if recalc_full_depth or self._sample_da_cache is None or self._sample_da_cache_key != cache_key:
             das = [z.sample_da(recalc=recalc_full_depth, **kwargs).assign_coords({'zernike':z.j}) for z in self.zernikes]
             self._sample_da_cache = (self.coefficients * xr.concat(das, dim="zernike")).sum("zernike")
+            self._sample_da_cache_key = cache_key
         return self._sample_da_cache
 
     def plot(self, cmap="RdBu"):
@@ -208,6 +215,7 @@ class zernike_aberration():
     def _invalidate_cache(self):
         self._cached_sample = None
         self._sample_da_cache = None
+        self._sample_da_cache_key = None
 
     def _repr_html_(self):
         return self.coefficients._repr_html_()
