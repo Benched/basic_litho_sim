@@ -1,77 +1,133 @@
+"""Sampling utilities shared by the optics helpers and notebooks."""
+
 import numpy as np
 import xarray as xr
 
+
 def to_da(x, values, xmin=None, xmax=None, endpoint=False):
+    """Wrap a 1D sample in an `xarray.DataArray` with spacing metadata.
+
+    Parameters
+    ----------
+    x : array-like
+        Sample coordinates.
+    values : array-like
+        Values evaluated on `x`.
+    xmin, xmax : float, optional
+        Explicit domain bounds. When omitted they are inferred from `x` and the
+        half-open sampling convention.
+    endpoint : bool, optional
+        Whether `x` includes the upper endpoint of the sampled interval.
+
+    Returns
+    -------
+    xarray.DataArray
+        A one-dimensional array with `dx` and `n` attributes.
+    """
     da = xr.DataArray(values, dims=("x",), coords={"x": x})
 
     if xmin is None:
         xmin = min(x)
 
     if xmax is None:
-        dx = x[1] - x[0]  # assume uniform spacing
+        dx = x[1] - x[0]
         xmax = x[-1] + dx if endpoint is False else x[-1]
 
     n = len(values)
-    dx = (xmax - xmin) / n  # compute over full domain
+    dx = (xmax - xmin) / n
 
     return da.assign_attrs({"dx": dx, "n": n})
 
 
 def sample_fn(f, N, t0, t1, as_da=True):
+    """Sample a scalar 1D function on a uniform half-open interval.
+
+    Parameters
+    ----------
+    f : callable
+        Function of one variable to sample.
+    N : int
+        Number of sample points.
+    t0, t1 : float
+        Lower and upper interval bounds.
+    as_da : bool, optional
+        When `True`, return an `xarray.DataArray`; otherwise return raw NumPy
+        arrays.
+
+    Returns
+    -------
+    xarray.DataArray or tuple[np.ndarray, np.ndarray]
+        Either the wrapped sample or the coordinate/value arrays.
+    """
     x = np.linspace(t0, t1, N, endpoint=False)
     sample = np.array(list(map(f, x)))
     if as_da:
         return to_da(x, sample)
-    else:
-        return x, sample
+    return x, sample
+
 
 def sample_fn_2d(fn, nx, ny, xmin, xmax, ymin, ymax, as_da=True, endpoint=False):
-    """
-    Samples a 2D scalar function f(x, y) over a regular grid.
+    """Sample a scalar 2D function over a regular Cartesian grid.
 
-    Parameters:
-        fn: callable (x, y) -> float
-        nx, ny: number of samples in x and y directions
-        xmin, xmax: x range
-        ymin, ymax: y range
-        as_da: if True, return an xarray.DataArray; else return raw numpy arrays
+    Parameters
+    ----------
+    fn : callable
+        Function of two variables to sample.
+    nx, ny : int
+        Number of grid points in the x and y directions.
+    xmin, xmax : float
+        Bounds of the x-domain.
+    ymin, ymax : float
+        Bounds of the y-domain.
+    as_da : bool, optional
+        When `True`, return an `xarray.DataArray`; otherwise return raw meshgrid
+        arrays.
+    endpoint : bool, optional
+        Whether to include the upper domain bounds in the generated coordinate
+        grids.
 
-    Returns:
-        - If as_da is True: xarray.DataArray with dims ['x', 'y']
-        - If as_da is False: (X, Y, Z) where:
-            X: 2D x-coordinates (meshgrid)
-            Y: 2D y-coordinates (meshgrid)
-            Z: 2D function values
+    Returns
+    -------
+    xarray.DataArray or tuple[np.ndarray, np.ndarray, np.ndarray]
+        Either a 2D DataArray with spacing metadata or the `X`, `Y`, and `Z`
+        meshgrid arrays.
     """
     x = np.linspace(xmin, xmax, nx, endpoint=endpoint)
     y = np.linspace(ymin, ymax, ny, endpoint=endpoint)
     dx = (xmax - xmin) / nx
     dy = (ymax - ymin) / ny
 
-    X, Y = np.meshgrid(x, y, indexing="ij")  # shape (nx, ny)
+    X, Y = np.meshgrid(x, y, indexing="ij")
     Z = np.vectorize(fn)(X, Y)
 
     if as_da:
         da = xr.DataArray(Z, coords={"x": x, "y": y}, dims=["x", "y"])
         da.attrs.update({"dx": dx, "dy": dy, "nx": nx, "ny": ny})
         return da
-    else:
-        return X, Y, Z
+    return X, Y, Z
 
 
 def riemann_approximation_ft_of_fn_on_symmetric_interval(f, N, t0):
-    """Determines the fourier transform for a function on -t0, t0 via the Riemann sum.
+    """Approximate a continuous Fourier transform with a Riemann sum.
 
-    Used for testing.
-
-    Inputs:
-        fn (function): a complex function on (-t0, t0)
-        N (int): The number
-        t0 (float): Defines the interval -t0, t0 on which to sample
-
+    Parameters
+    ----------
+    f : callable
+        Function to sample on the interval `[-t0, t0)`.
+    N : int
+        Number of samples used for the approximation.
+    t0 : float
+        Half-width of the symmetric sampling interval.
 
     Returns
-        Nummerical approximation of the fourier transform of fn.
+    -------
+    tuple[np.ndarray, np.ndarray]
+        The sampled frequency grid and the corresponding Fourier approximation.
+
+    Notes
+    -----
+    This helper is mainly used in tests as a slower but explicit reference
+    implementation.
     """
     Fs = N / (2 * t0)
     dt = 1 / Fs
