@@ -101,6 +101,10 @@ def test_build_notebooks_script_exports_expected_targets() -> None:
         'marimo export html-wasm "%notebook%" -o "%export_dir%\\%html_file%" %extra_args%'
         in normalized
     )
+    assert (
+        "copy /y content\\introduction_logic_viz.py docs\\content\\"
+        in normalized
+    )
 
     expected_helper_calls = [
         "call :export_html content\\notebook_introduction.py notebook_introduction.html",

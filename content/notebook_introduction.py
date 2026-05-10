@@ -1,21 +1,41 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.22.4"
 app = marimo.App(width="medium")
 
 
 @app.cell
 def _():
     import marimo as mo
-    import matplotlib.pyplot as plt
-    import matplotlib.patches as patches
-    return mo, patches, plt
+    import sys
+    from pathlib import Path
+
+    for root in (Path.cwd(), Path.cwd().parent):
+        if (root / "content" / "introduction_logic_viz.py").exists():
+            sys.path.insert(0, str(root))
+            break
+
+    from content.introduction_logic_viz import (
+        binary_to_int,
+        draw_inverter_diagram,
+        draw_logic_gate_diagram,
+        draw_two_bit_adder_diagram,
+        two_bit_adder,
+    )
+
+    return (
+        binary_to_int,
+        draw_inverter_diagram,
+        draw_logic_gate_diagram,
+        draw_two_bit_adder_diagram,
+        mo,
+        two_bit_adder,
+    )
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Chip production process
 
     ### The purpose of these pages
@@ -34,15 +54,13 @@ def _(mo):
     After that, the following notebooks will zoom in on the optics: what are the challenges in using light to etch patterns smaller than bacteria onto silicon, and why some of the machines that do this cost hundreds of millions of euros.
 
     If you’re mainly here for the optics, you can skip ahead past the fabrication overview
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # What Does a Chip Do?
 
     Chips are everywhere in modern life. Mobile phones and laptops are the obvious examples, but even everyday objects like washing machines, cameras, and cars depend on them.
@@ -60,8 +78,7 @@ def _(mo):
     ### The language and logic of chips
     Most chips share a common internal language: binary — a language of zeros and ones.
     Each “bit” can be either 0 (off) or 1 (on). With only two symbols, binary can represent anything: numbers, letters, colors, even videos. In the upcoming sections we briefly look into binary as well as the operations we can do with it that correspond to real-world tasks.
-    """
-    )
+    """)
     return
 
 
@@ -74,14 +91,15 @@ def _():
 
 @app.cell
 def _(binary_a, mo):
-    mo.md(f"""One example of using binary is the letter 'a' as used in a notebook like this one. In binary it is represented as: {binary_a}""")
+    mo.md(f"""
+    One example of using binary is the letter 'a' as used in a notebook like this one. In binary it is represented as: {binary_a}
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Counting in binary follows a simple pattern:
 
     | Decimal |	Binary |
@@ -107,8 +125,7 @@ def _(mo):
     By combining many of these switches, we can build circuits that add numbers, store information, and make decisions — everything that forms the foundation of modern computing.
 
     Below you can try it out and convert numbers to binary and vice versa.
-    """
-    )
+    """)
     return
 
 
@@ -168,22 +185,19 @@ def _(binary_text_input, last_valid, mo, validate_binary):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Now that we have binary as a language, we still need to do something with it for a chip to be useful. It turns out we can reduce all the complex operations we want to perform to a couple of very simple ones, such as the AND, OR and XOR operations:
 
     - given two bits of input the AND operator gives an output that is 1 if the first bit AND the second bit is 1, otherwise the output is zero.
     - given two bits of input the OR operator gives an output that is 1 if the first bit OR the second bit is 1, where both bits being 1 also counts. However, if both bits are 0 the output will be 0.
     - Finally the XOR (eXclusive OR) gives 1 as an output if the first bit is 1 or the second bit is 1, but not both. A common table format for this is:
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### AND operator
     | input 1 | input 2 | output |
     |---|---|---|
@@ -191,15 +205,13 @@ def _(mo):
     | 0 | 1 | 0 |
     | 1 | 0 | 0 |
     | 1 | 1 | 1 |
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### OR operator
     | input 1 | input 2 | output |
     |---|---|---|
@@ -207,15 +219,13 @@ def _(mo):
     | 0 | 1 | 1 |
     | 1 | 0 | 1 |
     | 1 | 1 | 1 |
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### XOR operator
     | input 1 | input 2 | output |
     |---|---|---|
@@ -223,15 +233,12 @@ def _(mo):
     | 0 | 1 | 1 |
     | 1 | 0 | 1 |
     | 1 | 1 | 0 |
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-
-    # --- Inputs ---
     A = mo.ui.checkbox(label="Switch A (checked = 1, unchecked = 0)", value=False)
     B = mo.ui.checkbox(label="Switch B (checked = 1, unchecked = 0)", value=False)
 
@@ -240,194 +247,66 @@ def _(mo):
         value="AND",
         label="Gate Type"
     )
-
-    # --- Logic function ---
-    def logic_output(a: bool, b: bool, op: str) -> bool:
-        if op == "AND": return a and b
-        if op == "OR": return a or b
-        if op == "XOR": return a ^ b
-    return A, B, logic_output, operation
+    return A, B, operation
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""Here is a visualization with two switches and the logical operator controlling the lightbulb. Switch closed means it is a 1, switch open means it is a zero""")
+    mo.md(r"""
+    Here is a visualization with two switches and the logical operator controlling the lightbulb. Switch closed means it is a 1, switch open means it is a zero
+    """)
     return
 
 
 @app.cell
-def _(A, B, logic_output, mo, operation, patches, plt):
-
-    # --- Reactive diagram ---
-    def logic_diagram():
-        a, b, op = A.value, B.value, operation.value
-        result = logic_output(a, b, op)
-
-        fig, ax = plt.subplots(figsize=(6, 3))
-        ax.axis("off")
-
-        # Draw switches
-        def draw_switch(x, y, state, label):
-            ax.text(x - 0.1, y + 0.15, label, fontsize=12, ha='right')
-            ax.plot([x, x + 0.3], [y, y], color="black", lw=2)
-            if state:
-                ax.plot([x + 0.3, x + 0.6], [y, y], color="black", lw=2)
-            else:
-                ax.plot([x + 0.3, x + 0.6], [y + 0.15, y], color="black", lw=2)
-
-        draw_switch(0.1, 0.7, a, "A")
-        draw_switch(0.1, 0.3, b, "B")
-
-        # Wires to gate
-        ax.plot([0.7, 1.0], [0.7, 0.7], color="black", lw=2)
-        ax.plot([0.7, 1.0], [0.3, 0.3], color="black", lw=2)
-
-        # Gate box
-        gate_box = patches.FancyBboxPatch(
-            (1.0, 0.25), 0.5, 0.6,
-            boxstyle="round,pad=0.05", fc="lightgray"
-        )
-        ax.add_patch(gate_box)
-        ax.text(1.25, 0.55, op, fontsize=14, ha="center", va="center")
-
-        # Output wire
-        ax.plot([1.5, 2.0], [0.55, 0.55], color="black", lw=2)
-
-        # Light bulb
-        bulb_color = "gold" if result else "lightgray"
-        bulb = patches.Circle((2.2, 0.55), 0.15, fc=bulb_color, ec="black", lw=1.5)
-        ax.add_patch(bulb)
-        ax.text(2.2, 0.85, "Output", ha="center", fontsize=10)
-        ax.set_xlim(0, 2.5)
-        ax.set_ylim(0, 1)
-
-        plt.close(fig)
-        return fig
-
-    # --- Layout ---
+def _(A, B, draw_logic_gate_diagram, mo, operation):
     mo.vstack([
         mo.hstack([A, B, operation]),
-        logic_diagram()
+        draw_logic_gate_diagram(A.value, B.value, operation.value)
     ])
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### NOT
     In the discussion above one very important, and somewhat counterintuitive, operator is missing. The NOT:
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-
-
     switch = mo.ui.checkbox(label="Switch (checked = 1, unchecked = 0)", value=False)
-
-    def not_output(x: bool) -> bool:
-        return (not x)
-
-    def status():
-        x = switch.value
-        y = not_output(x)
-        symbol = "💡" if y else "⚫"
-        return mo.md(f"### Output: {symbol} → `{int(y)}`  (input `{int(x)}`)")
-    return not_output, switch
+    return (switch,)
 
 
 @app.cell
-def _(not_output, patches, plt, switch):
-    def inverter_diagram():
-        x = switch.value
-        y = not_output(x)
-
-        fig, ax = plt.subplots(figsize=(6, 3))
-        ax.axis("off")
-
-        # Helpers
-        active_in = "black" if x else "lightgray"
-        active_out = "gold" if y else "lightgray"
-
-        # Draw a simple switch symbol (left)
-        def draw_switch(x0, y0, state, label):
-            ax.text(x0 - 0.1, y0 + 0.15, label, fontsize=12, ha="right")
-            # base
-            ax.plot([x0, x0 + 0.3], [y0, y0], color="black", lw=2)
-            # blade (closed if state=True)
-            if state:
-                ax.plot([x0 + 0.3, x0 + 0.6], [y0, y0], color="black", lw=2)
-            else:
-                ax.plot([x0 + 0.3, x0 + 0.6], [y0 + 0.15, y0], color="black", lw=2)
-
-        draw_switch(0.1, 0.55, x, "Input")
-
-        # Input wire to inverter
-        ax.plot([0.7, 1.0], [0.55, 0.55], color=active_in, lw=3)
-
-        # Inverter symbol (triangle + bubble)
-        tri = patches.Polygon([[1.0, 0.25], [1.0, 0.85], [1.45, 0.55]],
-                              closed=True, fc="lightgray", ec="black", lw=1.5)
-        ax.add_patch(tri)
-        bubble = patches.Circle((1.55, 0.55), 0.05, fc="white", ec="black", lw=1.5)
-        ax.add_patch(bubble)
-        ax.text(1.225, 0.55, "NOT", ha="center", va="center", fontsize=11)
-
-        # Output wire
-        ax.plot([1.60, 2.00], [0.55, 0.55], color=active_out, lw=3)
-
-        # Light bulb (with soft glow when on)
-        bulb_center = (2.20, 0.55)
-        bulb = patches.Circle(bulb_center, 0.15, fc=("gold" if y else "lightgray"),
-                              ec="black", lw=1.5)
-        ax.add_patch(bulb)
-        if y:
-            glow = patches.Circle(bulb_center, 0.28, fc="gold", alpha=0.25, ec=None)
-            ax.add_patch(glow)
-        ax.text(2.20, 0.85, "Output", ha="center", fontsize=10)
-
-        # Bounds
-        ax.set_xlim(0.0, 2.6)
-        ax.set_ylim(0.0, 1.1)
-
-        plt.close(fig)
-        return fig
-
-    return (inverter_diagram,)
-
-
-@app.cell
-def _(inverter_diagram, mo, switch):
+def _(draw_inverter_diagram, mo, switch):
     mo.vstack([
         switch,
-        inverter_diagram()
+        draw_inverter_diagram(switch.value)
     ])
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     The NOT operator inverts the signal, given a 0 it gives a 1, and given a 1 it gives 0 as output. The truth table is as follows:
 
     | Input bit | output bit |
     |---|---|
     | 0 | 1 |
     | 1 | 0 |
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     The operators above are so useful because you can build any *boolean operator*. That means that for any number of bits, we can get any binary outcome by combining these operators.
     In fact, AND and NOT are already enough. The OR and XOR operators we can make out of AND and NOT:
 
@@ -436,15 +315,13 @@ def _(mo):
     and
 
     A XOR B = (NOT (A AND B)) AND (NOT ((NOT A) AND (NOT B)))
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     One way to check that this works is by working out the truth table. The first columns are the individual input bits, in this case A and B. Then we compute the intermediate steps, such as NOT A and NOT B. In the last column we get the full expression, which, in this case is exactly the same column we also had for the OR operator.
 
     | A | B | NOT A | NOT B | (NOT A) AND (NOT B) |   NOT ((NOT A) AND (NOT B))
@@ -453,15 +330,13 @@ def _(mo):
     | 0 | 1 | 1 | 0 | 0 | 1 |
     | 1 | 0 | 0 | 1 | 0 | 1 |
     | 1 | 1 | 0 | 0 | 0 | 1 |
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     For more reading:
 
     - https://en.wikipedia.org/wiki/Boolean_function
@@ -469,8 +344,7 @@ def _(mo):
     - https://en.wikipedia.org/wiki/Functional_completeness
 
     For this text, let's have a quick look at why it makes sense that these operations are useful. Let's try to build addition (for small numbers), you can click on the four buttons with 0's to change them to 1's
-    """
-    )
+    """)
     return
 
 
@@ -496,6 +370,7 @@ def _(get_A0, get_A1, get_B0, get_B1, set_A0, set_A1, set_B0, set_B1):
 
     def update_B1(v):
         set_B1(not get_B1())
+
     return update_A0, update_A1, update_B0, update_B1
 
 
@@ -519,155 +394,51 @@ def _(
 
 
 @app.cell
-def _():
-    def binary_to_int(*binary):
-        total = 0
-        for i, b in enumerate(reversed(binary)):
-            if b:
-                total += 2**i
-        return total
-
-    def XOR(a,b): return a ^ b
-    def AND(a,b): return a & b
-    def OR(a,b):  return a | b
-    return AND, OR, XOR, binary_to_int
-
-
-@app.cell
 def _(
-    AND,
-    OR,
-    XOR,
     binary_to_int,
     bit_A0,
     bit_A1,
     bit_B0,
     bit_B1,
+    draw_two_bit_adder_diagram,
     get_A0,
     get_A1,
     get_B0,
     get_B1,
     mo,
-    patches,
-    plt,
+    two_bit_adder,
 ):
-    def adder_diagram():
-        # Calculations
-        a1,a0,b1,b0 = get_A1(), get_A0(), get_B1(), get_B0()
-        s0 = XOR(a0,b0)
-        c0 = AND(a0,b0)
-        xor1 = XOR(a1,b1)
-        s1 = XOR(xor1,c0)
-        c1 = OR(AND(a1,b1), AND(c0,xor1))
-        # Draw
-        fig, ax = plt.subplots(figsize=(8,6))
-        ax.axis("off")
-
-        def gate(x,y,label,color="lightgray"):
-            box = patches.FancyBboxPatch((x-0.3,y-0.2),0.6,0.4,boxstyle="round,pad=0.05",fc=color,ec="black",lw=1.5)
-            ax.add_patch(box)
-            ax.text(x,y,label,ha="center",va="center",fontsize=10)
-
-        def bulb(x,y,state):
-            col="gold" if state else "lightgray"
-            c=patches.Circle((x,y),0.15,fc=col,ec="black")
-            ax.add_patch(c)
-            if state:
-                ax.add_patch(patches.Circle((x,y),0.25,fc="gold",alpha=0.25))
-
-        # Output bit 1
-        ax.text(0.2,2.2,"A₀",ha="center", color="lightgreen" if a0 else "black") 
-        ax.text(0.2,1.8,"B₀",ha="center", color="lightgreen" if b0 else "black")
-        ax.plot([0.3,0.64],[2.2,2.2],color="black",lw=2)
-        ax.plot([0.3,0.64],[1.8,1.8],color="black",lw=2)
-        ax.plot([1.36, 4.13],[2, 2],color="black",lw=2)
-        gate(1.0,2.0,"XOR","lightgreen" if s0 else "lightgray")
-        bulb(4.3,2.0,s0); ax.text(4.32,2.2,"O0",ha="center")
-
-        # output bit 2
-        ax.text(0.2,1.3,"A₀",ha="center", color="lightgreen" if a0 else "black")
-        ax.text(0.2,0.9,"B₀",ha="center", color="lightgreen" if b0 else "black")
-        ax.text(0.2,0.5,"A₁",ha="center", color="lightgreen" if a1 else "black")
-        ax.text(0.2,0.1,"B₁",ha="center", color="lightgreen" if b1 else "black")
-        gate(1.0,1.1,"AND","lightgreen" if c0 else "lightgray")
-        ax.plot([0.3,0.64],[1.3, 1.3],color="black",lw=2)
-        ax.plot([0.3,0.64],[0.9, 0.9],color="black",lw=2)
-        gate(1.0,0.3,"XOR","lightgreen" if xor1 else "lightgray")
-        ax.plot([0.3,0.64],[0.5, 0.5],color="black",lw=2)
-        ax.plot([0.3,0.64],[0.1, 0.1],color="black",lw=2)
-        gate(2.0, 0.7,"XOR","lightgreen" if s1 else "lightgray")
-        ax.plot([1.36,1.64],[0.9, 0.9],color="black",lw=2)
-        ax.plot([1.36,1.64],[0.5, 0.5],color="black",lw=2)
-        ax.plot([2.36,4.13],[0.7, 0.7],color="black",lw=2)
-        bulb(4.3,0.7,s1); ax.text(4.32, 0.9,"O1",ha="center")
-
-        # output bit 3
-        ax.text(0.2,-0.4,"A₀",ha="center", color="lightgreen" if a0 else "black")
-        ax.text(0.2,-0.8,"B₀",ha="center", color="lightgreen" if b0 else "black")
-        ax.text(0.2,-1.2,"A₁",ha="center", color="lightgreen" if a1 else "black")
-        ax.text(0.2,-1.6,"B₁",ha="center", color="lightgreen" if b1 else "black")
-        ax.text(0.2,-2.0,"A₁",ha="center", color="lightgreen" if a1 else "black")
-        ax.text(0.2,-2.4,"B₁",ha="center", color="lightgreen" if b1 else "black")
-        gate(1.0,-0.6,"AND","lightgreen" if c0 else "lightgray")
-        ax.plot([0.3,0.64],[-0.4, -0.4],color="black",lw=2)
-        ax.plot([0.3,0.64],[-0.8, -0.8],color="black",lw=2)
-        gate(1.0,-1.4,"XOR","lightgreen" if xor1 else "lightgray")
-        ax.plot([0.3,0.64],[-1.2, -1.2],color="black",lw=2)
-        ax.plot([0.3,0.64],[-1.6, -1.6],color="black",lw=2)
-        gate(2.0, -1,"AND","lightgreen" if AND(c0,xor1) else "lightgray")
-        ax.plot([1.36,1.64],[-0.8, -0.8],color="black",lw=2)
-        ax.plot([1.36,1.64],[-1.2, -1.2],color="black",lw=2)
-        ax.plot([2.36,2.64],[-1.0, -1.0],color="black",lw=2)
-        gate(1.0, -2.2,"AND","lightgreen" if AND(a1,b1) else "lightgray")
-        ax.plot([0.36,0.64],[-2.0, -2.0],color="black",lw=2)
-        ax.plot([0.36,0.64],[-2.4, -2.4],color="black",lw=2)
-        ax.plot([1.36,2.64],[-2.2, -2.2],color="black",lw=2)
-        gate(3.0, -1.6,"OR","lightgreen" if c1 else "lightgray")
-        ax.plot([2.64,2.64],[-1.0, -1.4],color="black",lw=2)
-        ax.plot([2.64,2.64],[-2.2, -1.8],color="black",lw=2)
-        ax.plot([3.36,4.13],[-1.6, -1.6],color="black",lw=2)
-        bulb(4.3,-1.6, c1); ax.text(4.32, -1.4,"O2",ha="center")
-
-        ax.set_xlim(0,4.6); ax.set_ylim(-2.5,2.6)
-        plt.close(fig)
-        return fig
-
     a1,a0,b1,b0 = get_A1(), get_A0(), get_B1(), get_B0()
-    s0 = XOR(a0,b0)
-    c0 = AND(a0,b0)
-    xor1 = XOR(a1,b1)
-    s1 = XOR(xor1,c0)
-    c1 = OR(AND(a1,b1), AND(c0,xor1))
+    result = two_bit_adder(a1, a0, b1, b0)
 
     mo.vstack([
-        mo.hstack((bit_A1, bit_A0, "+", bit_B1, bit_B0, "=", int(c1), int(s1), int(s0), mo.md(f"corresponding to {binary_to_int(a1, a0)}+{binary_to_int(b1, b0)} = {binary_to_int(c1, s1, s0)}")), justify="start"), 
+        mo.hstack((bit_A1, bit_A0, "+", bit_B1, bit_B0, "=", int(result.carry1), int(result.sum1), int(result.sum0), mo.md(f"corresponding to {binary_to_int(a1, a0)}+{binary_to_int(b1, b0)} = {binary_to_int(result.carry1, result.sum1, result.sum0)}")), justify="start"),
         mo.md("order: A1 A0 + B1 B0 = O2 O1 O0"),
-        adder_diagram()
+        draw_two_bit_adder_diagram(a1, a0, b1, b0)
     ])
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""Note that already in such a simple diagram many things are repeated, so this is by no means the simplest (in the sense of number of operations) way to construct addition.""")
+    mo.md(r"""
+    Note that already in such a simple diagram many things are repeated, so this is by no means the simplest (in the sense of number of operations) way to construct addition.
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     #### Summary and next steps:
     Chips work with a language consisting of bits. Anything a chip should do to such a collection of bits can be constructed from simple operations such as AND and NOT. What is missing is how these abstract ideas can be created in the real world on a piece of silicon!
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Transistors
     The production of semiconductor chips generally splits into two broad categories: memory and logic.
 
@@ -676,15 +447,13 @@ def _(mo):
     Logic chips, on the other hand, are designed to process information. They perform calculations and decision-making using vast networks of transistors arranged to carry out logical operations — we’ll explore how those transistors work next.
 
     💡 Fun fact: The fastest memory in a computer — the cache located inside logic chips like CPUs — is also made entirely of transistors. It’s called SRAM (static RAM) and can access data much faster than external memory types.
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     The logical operations AND, OR, and NOT are a great way to think about how logic works in principle.
     On an actual chip, these operations are realized using physical components called transistors.
 
@@ -693,14 +462,15 @@ def _(mo):
     When a voltage is applied to the gate, it creates an electric field that allows current to pass between the other two terminals — called the source and the drain. In effect, the transistor acts like a voltage-controlled switch: with no voltage on the gate, the switch is off; with sufficient voltage, it turns on.
 
     In a transistor, the gate voltage carries the logical signal. The source serves as the reference for that signal, and the drain acts as the output whose voltage depends on whether the transistor conducts. Therefore the transistor itself is not an AND operator - as the source is not a logical input.
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""There are multiple ways to depict transistors in circuit diagrams, below you find one such a depiction for the (NMOS) transistor we described above:""")
+    mo.md(r"""
+    There are multiple ways to depict transistors in circuit diagrams, below you find one such a depiction for the (NMOS) transistor we described above:
+    """)
     return
 
 
@@ -712,11 +482,9 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Another type of transistor, called a PMOS, conducts when the voltage on its gate is low. In this device, the source is typically connected to the higher supply voltage, and current flows from source to drain when the transistor is on. The drain then serves as the output, and the gate voltage controls whether that path is open or closed.
-    """
-    )
+    """)
     return
 
 
@@ -728,11 +496,9 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Combining these two transistors in the single circuit below gives us the inverter:
-    """
-    )
+    """)
     return
 
 
@@ -744,8 +510,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     This circuit is a CMOS inverter, made from one PMOS and one NMOS transistor, both controlled by the same input voltage A.
 
     When A is high (1), the NMOS transistor turns on, connecting the output Q to Vss (ground, 0). The PMOS transistor remains off, so it has no effect. The result is Q = 0.
@@ -753,15 +518,13 @@ def _(mo):
     When A is low (0), the situation reverses: the PMOS transistor turns on, connecting Q to Vdd (the supply voltage, 1), while the NMOS remains off. Thus A = 0 produces Q = 1 — the output is the logical inverse of the input.
 
     Notice that at any time, only one transistor conducts. This means there is no direct current path between Vdd and Vss when the circuit is stable, minimizing power consumption — a key advantage of CMOS (C for Complementary) logic.
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### NAND
     There is one final basic logical operator we should mention: The NAND = NOT AND. The diagram matches its name:
 
@@ -776,18 +539,15 @@ def _(mo):
     NOT A = NAND(A, A)
     which we can then use for:
     AND(A, B) = NOT(NAND(A, B)).
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     A second very nice property is that we can implement it in CMOS logic with only 4 transistors (compared to 6 for AND).
-    """
-    )
+    """)
     return
 
 
@@ -799,8 +559,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     In the NAND circuit, we now see four transistors — two NMOS and two PMOS.
     The two NMOS transistors conduct only when both inputs A and B are high (1). In that case, both PMOS transistors are off, and the output Out is connected to Vss (0).
 
@@ -809,15 +568,13 @@ def _(mo):
     The resulting behavior matches exactly the truth table of a NAND gate: the output is 0 only when both inputs are 1.
 
     So we see that all the logical operations we would like can be built out of transistors. What remains is how we can make chips with all those transistors.
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Design and fabrication
     When you look at today’s leading chip companies, names like NVIDIA, Intel, and TSMC often come up. But these companies don’t all do the same thing.
 
@@ -830,15 +587,13 @@ def _(mo):
     This division between chip design and chip manufacturing is known as the fabless–foundry model, and it’s the dominant structure for many leading chip companies today. Fabless companies create the chip designs, while foundries handle the fabrication.
 
     The strength of this split lies in specialization: both design and manufacturing are so complex that focusing on one enables companies to excel. Intel, historically both a designer and manufacturer (an integrated device manufacturer, or IDM), is also investing heavily to grow as a foundry for external customers.
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### The economic picture and Moore's law.
     As we saw above, only a few companies are now able to compete at the very high end of chip production due to the enormous complexity of both design and manufacturing.
 
@@ -853,15 +608,13 @@ def _(mo):
     These improvements have enabled compact and power-efficient devices such as smartphones, and they continue to drive advances in AI hardware, where energy efficiency directly affects the cost of training and inference.
 
     In recent years, however, some of these benefits have become less automatic. Clock speeds have largely stopped increasing since the mid-2000s, and cost per transistor is no longer dropping as consistently because of the extreme complexity of modern fabrication. For this reason, many in the industry now debate whether Moore’s law is slowing — or even ending. For now, the industry technology roadmap forecasts continued shrinking of transistor sizes, in part by using new transistor designs. At the same time, the industry is also using other solutions, such as smart integration of more functionalities on chips under the name "more than Moore".
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Actual transistors, semiconductors and Integrated Circuits
     We’ve seen that transistors are the fundamental building blocks of chips, and that by combining many of them, we can perform any operation we like on binary data. In this section, we’ll take a closer look at what a physical transistor actually is.
 
@@ -884,8 +637,7 @@ def _(mo):
     This already gives us nontrivial behavior from semiconductors. To create a transistor, we build on this principle by arranging n-type and p-type regions to form the source and drain of the device, separated by a channel that is normally non-conductive.
 
     The input of the transistor — the gate — is not directly connected to the channel. Instead, when a voltage is applied to the gate, it creates an electric field that attracts charge carriers into the channel, making it conductive and allowing current to flow between the source and drain. In other words, the transistor turns on.
-    """
-    )
+    """)
     return
 
 

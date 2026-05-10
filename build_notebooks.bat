@@ -58,6 +58,10 @@ if errorlevel 1 goto build_failed
 
 echo Copying notebook assets...
 if exist docs\CLAUDE.md del /q docs\CLAUDE.md
+powershell -NoProfile -ExecutionPolicy Bypass -Command "New-Item -ItemType Directory -Path 'docs\content' -Force | Out-Null"
+if errorlevel 1 exit /b %errorlevel%
+if exist content\introduction_logic_viz.py copy /Y content\introduction_logic_viz.py docs\content\ >nul
+if errorlevel 1 exit /b %errorlevel%
 if exist content\figures xcopy /E /I /Y content\figures docs\content\figures >nul
 if errorlevel 1 exit /b %errorlevel%
 
