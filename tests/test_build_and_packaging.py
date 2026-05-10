@@ -93,16 +93,24 @@ def built_wheel(
 def test_build_notebooks_script_exports_expected_targets() -> None:
     normalized = _normalized_batch_text(BUILD_SCRIPT)
 
-    expected_commands = [
-        "marimo export html-wasm content\\notebook_index.py -o docs\\index.html",
-        "marimo export html-wasm content\\notebook_introduction.py -o docs\\notebook_introduction.html",
-        "marimo export html-wasm content\\notebook_optics_basics.py -o docs\\notebook_optics_basics.html",
-        "marimo export html-wasm content\\notebook_zernikes_and_gratings.py -o docs\\notebook_zernikes_and_gratings.html",
-        "marimo export html-wasm content\\notebook_zernikes_and_gratings.py -o docs\\notebook_zernikes_and_gratings_editable.html --mode edit",
+    assert (
+        "marimo export html-wasm content\\notebook_index.py -o docs\\index.html"
+        in normalized
+    )
+    assert (
+        'marimo export html-wasm "%notebook%" -o "%export_dir%\\%html_file%" %extra_args%'
+        in normalized
+    )
+
+    expected_helper_calls = [
+        "call :export_html content\\notebook_introduction.py notebook_introduction.html",
+        "call :export_html content\\notebook_optics_basics.py notebook_optics_basics.html",
+        "call :export_html content\\notebook_zernikes_and_gratings.py notebook_zernikes_and_gratings.html",
+        "call :export_html content\\notebook_zernikes_and_gratings.py notebook_zernikes_and_gratings_editable.html --mode edit",
     ]
 
-    for command in expected_commands:
-        assert command in normalized, f"Missing export command in build_notebooks.bat: {command}"
+    for command in expected_helper_calls:
+        assert command in normalized, f"Missing export helper call in build_notebooks.bat: {command}"
 
 
 @pytest.mark.skipif(not MARIMO_AVAILABLE, reason="marimo is not installed")
@@ -117,8 +125,16 @@ def test_docs_build_pipeline_smoke(
     copied_wheel = docs_dir / built_wheel.name
     shutil.copy2(built_wheel, copied_wheel)
 
-    for notebook_path, output_name, extra_args in DOC_EXPORTS:
-        output_path = docs_dir / output_name
+    temp_export_root = tmp_path / "marimo_exports"
+
+    for export_index, (notebook_path, output_name, extra_args) in enumerate(DOC_EXPORTS):
+        if export_index == 0:
+            output_path = docs_dir / output_name
+        else:
+            export_dir = temp_export_root / Path(output_name).stem
+            export_dir.mkdir(parents=True)
+            output_path = export_dir / output_name
+
         result = subprocess.run(
             [
                 sys.executable,
@@ -146,6 +162,8 @@ def test_docs_build_pipeline_smoke(
         assert output_path.exists(), f"Expected docs build output {output_name} to exist."
         exported_html = output_path.read_text(encoding="utf-8", errors="ignore").lower()
         assert "<html" in exported_html, f"Expected {output_name} to contain HTML markup."
+        if output_path.parent != docs_dir:
+            shutil.copy2(output_path, docs_dir / output_name)
 
     produced_names = {path.name for path in docs_dir.iterdir()}
     expected_names = {output_name for _, output_name, _ in DOC_EXPORTS} | {built_wheel.name}

@@ -16,7 +16,7 @@ def _():
 def _(mo):
     mo.md(
         r"""
-    # Chip producton process
+    # Chip production process
 
     ### The purpose of these pages
     These notebooks are designed to help you get familiar with the basics of how computer chips are made, with a special focus on the optics involved in that process.
@@ -31,7 +31,7 @@ def _(mo):
     - The main steps in how chips are fabricated
     - Why optics is absolutely central to making them
 
-    After that, the following notebooks will zoom in on the optics: what are the challanges in using light to etch patterns smaller than bacteria onto silicon, and why some of the machines that do this cost hundreds of billions of euros.
+    After that, the following notebooks will zoom in on the optics: what are the challenges in using light to etch patterns smaller than bacteria onto silicon, and why some of the machines that do this cost hundreds of millions of euros.
 
     If you’re mainly here for the optics, you can skip ahead past the fabrication overview
     """
@@ -55,11 +55,11 @@ def _(mo):
     * Processing information — such as performing calculations and logical decisions.
     * Coordinating operations — controlling how data moves and when things happen.
 
-    Every modern chip, no matter how complex, builds on these same ideas. Before looking at the fabrication process we will first look more closely at what the first two steps for a chip look like.
+    Every modern chip, no matter how complex, builds on these same ideas. Before looking at the fabrication process we will first look more closely at what the first two tasks for a chip look like.
 
     ### The language and logic of chips
     Most chips share a common internal language: binary — a language of zeros and ones.
-    Each “bit” can be either 0 (off) or 1 (on). With only two symbols, binary can represent anything: numbers, letters, colors, even videos. In the upcomming sections we briefly look into binary as wel as the operations we can do with it that correspond to real-world tasks.
+    Each “bit” can be either 0 (off) or 1 (on). With only two symbols, binary can represent anything: numbers, letters, colors, even videos. In the upcoming sections we briefly look into binary as well as the operations we can do with it that correspond to real-world tasks.
     """
     )
     return
@@ -84,17 +84,17 @@ def _(mo):
         r"""
     Counting in binary follows a simple pattern:
 
-    | Decimal |	Binary | power of two |
-    |:---|:---:|---:|
-    |0	 |0    |2^0  |
-    |1	 |1    |     |
-    |2	 |10   |2^1  |
-    |3	 |11   |     |
-    |4	 |100  |2^2  |
-    |5	 |101  |     |
-    |6	 |110  |     |
-    |7	 |111  |     |
-    |8   |1000 |2^3  |
+    | Decimal |	Binary |
+    |:---|:---:|
+    |0	 |0    |
+    |1	 |1    |
+    |2	 |10   |
+    |3	 |11   |
+    |4	 |100  |
+    |5	 |101  |
+    |6	 |110  |
+    |7	 |111  |
+    |8   |1000 |
 
     Just as our familiar decimal system (base 10) counts in powers of ten, binary (base 2) counts in powers of two.
 
@@ -172,8 +172,8 @@ def _(mo):
         r"""
     Now that we have binary as a language, we still need to do something with it for a chip to be useful. It turns out we can reduce all the complex operations we want to perform to a couple of very simple ones, such as the AND, OR and XOR operations:
 
-    - given two bits of input the AND operator gives an output that is 1 if the first bit AND the second bit is 1, otherwise the outpur is zero.
-    - given two bits of input the OR operator gives an out that is 1 is the first bit OR the second bit is 1, where both bits being 1 also counts. However, if both bits are 0 the output will be 0.
+    - given two bits of input the AND operator gives an output that is 1 if the first bit AND the second bit is 1, otherwise the output is zero.
+    - given two bits of input the OR operator gives an output that is 1 if the first bit OR the second bit is 1, where both bits being 1 also counts. However, if both bits are 0 the output will be 0.
     - Finally the XOR (eXclusive OR) gives 1 as an output if the first bit is 1 or the second bit is 1, but not both. A common table format for this is:
     """
     )
@@ -413,7 +413,7 @@ def _(inverter_diagram, mo, switch):
 def _(mo):
     mo.md(
         r"""
-    The NOT operator inverts the signal, given a 0 it gives a 1, and given a 1 it gives 0 as output. The truthtable is as follows:
+    The NOT operator inverts the signal, given a 0 it gives a 1, and given a 1 it gives 0 as output. The truth table is as follows:
 
     | Input bit | output bit |
     |---|---|
@@ -428,7 +428,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    The operators above are so useful beccause you can build any *boolean operator*. That means that for any number of bits, we can get any binary outcome by combining these operators.
+    The operators above are so useful because you can build any *boolean operator*. That means that for any number of bits, we can get any binary outcome by combining these operators.
     In fact, AND and NOT are already enough. The OR and XOR operators we can make out of AND and NOT:
 
     A OR B = NOT ((NOT A) AND (NOT B))
@@ -445,7 +445,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    One way to check that this works is by working out the truth table, the first columns are the inidvidual input bits. In this case A and B. Then we compute the inbetween  steps, such as NOT A and NOT B. In the last column we get the full expression, which, in this case is exactly the same column we also had for the OR operator.
+    One way to check that this works is by working out the truth table. The first columns are the individual input bits, in this case A and B. Then we compute the intermediate steps, such as NOT A and NOT B. In the last column we get the full expression, which, in this case is exactly the same column we also had for the OR operator.
 
     | A | B | NOT A | NOT B | (NOT A) AND (NOT B) |   NOT ((NOT A) AND (NOT B))
     |---|---|---|---|---|---|
@@ -468,7 +468,7 @@ def _(mo):
 
     - https://en.wikipedia.org/wiki/Functional_completeness
 
-    For this text, let's have a quick look at why it makes sense that these operations are useful. Let try to build addition (for small numbers), you can click on the four buttons with 0's to change them to 1's
+    For this text, let's have a quick look at why it makes sense that these operations are useful. Let's try to build addition (for small numbers), you can click on the four buttons with 0's to change them to 1's
     """
     )
     return
@@ -730,7 +730,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    Combining these two transistors in a the cingle circuit below we get the inverter:
+    Combining these two transistors in the single circuit below gives us the inverter:
     """
     )
     return
@@ -752,7 +752,7 @@ def _(mo):
 
     When A is low (0), the situation reverses: the PMOS transistor turns on, connecting Q to Vdd (the supply voltage, 1), while the NMOS remains off. Thus A = 0 produces Q = 1 — the output is the logical inverse of the input.
 
-    Notice that at any time, only one transistor conducts. This means there is no direct current path between Vdd and Vss when the circuit is stable, minimizing power consumption — a key advantage of CMOS (C for Combined) logic.
+    Notice that at any time, only one transistor conducts. This means there is no direct current path between Vdd and Vss when the circuit is stable, minimizing power consumption — a key advantage of CMOS (C for Complementary) logic.
     """
     )
     return
@@ -785,7 +785,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    The second very nice propery, we can implement it in CMOS logic with only 4 transistors (compared to 6 for AND)
+    A second very nice property is that we can implement it in CMOS logic with only 4 transistors (compared to 6 for AND).
     """
     )
     return
@@ -808,7 +808,7 @@ def _(mo):
 
     The resulting behavior matches exactly the truth table of a NAND gate: the output is 0 only when both inputs are 1.
 
-    So we see that all the logical operations we would like can be build out of transistors. What remains is how we can make a chips with all those resistors.
+    So we see that all the logical operations we would like can be built out of transistors. What remains is how we can make chips with all those transistors.
     """
     )
     return
@@ -825,11 +825,11 @@ def _(mo):
 
     NVIDIA doesn’t physically manufacture its chips. Instead, it focuses on chip design, a highly complex process that can involve more than 100 billion transistors in a single modern processor. Designing such chips is extremely challenging and is where much of the value of the final product is created.
 
-    The manufacturing of NVIDIA’s chips is carried out by specialized companies known as foundries, such as TSMC. TSMC produces most of the world’s leading-edge chips and has unmatched expertise in semiconductor fabrication. For the most advanced process technologies, only TSMC and Samsung are currently capable of production — with TSMC typically achieving higher yields and lower costs.
+    The manufacturing of NVIDIA’s chips is carried out by specialized companies known as foundries, such as TSMC. TSMC produces most of the world’s leading-edge chips and has unmatched expertise in semiconductor fabrication. At the most advanced nodes, TSMC and Samsung dominate outsourced foundry production, while Intel is also manufacturing advanced chips on its own leading process nodes and working to expand its foundry business.
 
-    This division between chip design and chip manufacturing is known as the fabless–foundry model, and it’s the dominant structure in today’s semiconductor industry. Fabless companies create the chip designs, while foundries handle the fabrication.
+    This division between chip design and chip manufacturing is known as the fabless–foundry model, and it’s the dominant structure for many leading chip companies today. Fabless companies create the chip designs, while foundries handle the fabrication.
 
-    The strength of this split lies in specialization: both design and manufacturing are so complex that focusing on one enables companies to excel. Intel, historically both a designer and manufacturer (an integrated device manufacturer, or IDM), has recently fallen behind TSMC and Samsung in process technology but is now investing heavily to catch up and enter the foundry business.
+    The strength of this split lies in specialization: both design and manufacturing are so complex that focusing on one enables companies to excel. Intel, historically both a designer and manufacturer (an integrated device manufacturer, or IDM), is also investing heavily to grow as a foundry for external customers.
     """
     )
     return
@@ -852,7 +852,7 @@ def _(mo):
 
     These improvements have enabled compact and power-efficient devices such as smartphones, and they continue to drive advances in AI hardware, where energy efficiency directly affects the cost of training and inference.
 
-    In recent years, however, some of these benefits have become less automatic. Clock speeds have largely stopped increasing since the mid-2000s, and cost per transistor is no longer dropping as consistently because of the extreme complexity of modern fabrication. For this reason, many in the industry now debate whether Moore’s law is slowing — or even ending. For now, the industry technology roadmap forecast a continuation of shrinking the size of transistors, in part by using new transistor designs. At the same time by making use of other solutions, such as smart integration of more functionalities on chips under the name "more than Moore".
+    In recent years, however, some of these benefits have become less automatic. Clock speeds have largely stopped increasing since the mid-2000s, and cost per transistor is no longer dropping as consistently because of the extreme complexity of modern fabrication. For this reason, many in the industry now debate whether Moore’s law is slowing — or even ending. For now, the industry technology roadmap forecasts continued shrinking of transistor sizes, in part by using new transistor designs. At the same time, the industry is also using other solutions, such as smart integration of more functionalities on chips under the name "more than Moore".
     """
     )
     return
