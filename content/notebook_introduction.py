@@ -6,22 +6,66 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    import importlib.util
     import marimo as mo
     import sys
+    import types
     from pathlib import Path
+    from urllib.parse import urljoin
 
-    for root in (Path.cwd(), Path.cwd().parent):
-        if (root / "content" / "introduction_logic_viz.py").exists():
-            sys.path.insert(0, str(root))
-            break
+    import matplotlib.patches as _patches
+    import matplotlib.pyplot as _plt
+    from matplotlib.path import Path as _MatplotlibPath
 
-    from content.introduction_logic_viz import (
-        binary_to_int,
-        draw_inverter_diagram,
-        draw_logic_gate_diagram,
-        draw_two_bit_adder_diagram,
-        two_bit_adder,
-    )
+    def _load_intro_logic_viz():
+        for root in (Path.cwd(), Path.cwd().parent):
+            helper_path = root / "content" / "introduction_logic_viz.py"
+            if helper_path.exists():
+                spec = importlib.util.spec_from_file_location(
+                    "content.introduction_logic_viz",
+                    helper_path,
+                )
+                module = importlib.util.module_from_spec(spec)
+                sys.modules["content.introduction_logic_viz"] = module
+                spec.loader.exec_module(module)
+                return module
+
+        try:
+            from content import introduction_logic_viz as module
+            return module
+        except ModuleNotFoundError as exc:
+            if exc.name not in {"content", "content.introduction_logic_viz"}:
+                raise
+
+        try:
+            import js
+            from pyodide.http import open_url
+        except ModuleNotFoundError as exc:
+            raise ModuleNotFoundError(
+                "Could not load introduction_logic_viz.py from the local "
+                "filesystem or the static notebook URL."
+            ) from exc
+
+        helper_url = urljoin(
+            str(js.window.location.href),
+            "content/introduction_logic_viz.py",
+        )
+        code = open_url(helper_url).read()
+        package = types.ModuleType("content")
+        package.__path__ = []
+        sys.modules.setdefault("content", package)
+        module = types.ModuleType("content.introduction_logic_viz")
+        module.__file__ = helper_url
+        sys.modules["content.introduction_logic_viz"] = module
+        exec(compile(code, helper_url, "exec"), module.__dict__)
+        return module
+
+    intro_logic_viz = _load_intro_logic_viz()
+    binary_to_int = intro_logic_viz.binary_to_int
+    draw_inverter_diagram = intro_logic_viz.draw_inverter_diagram
+    draw_logic_gate_diagram = intro_logic_viz.draw_logic_gate_diagram
+    draw_two_bit_adder_diagram = intro_logic_viz.draw_two_bit_adder_diagram
+    two_bit_adder = intro_logic_viz.two_bit_adder
 
     return (
         binary_to_int,
