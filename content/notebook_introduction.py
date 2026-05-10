@@ -387,7 +387,7 @@ def _(mo):
 
     - https://en.wikipedia.org/wiki/Functional_completeness
 
-    For this text, let's have a quick look at why it makes sense that these operations are useful. Let's try to build addition (for small numbers), you can click on the four buttons with 0's to change them to 1's
+    To see why these operations are useful, let's build a small adder. The diagram below is one condensed two-bit adder circuit: the rightmost bit is added first, its carry is reused by the next bit, and the final output is shown as O2 O1 O0. You can click the four input buttons to switch between 0 and 1.
     """)
     return
 
@@ -466,7 +466,7 @@ def _(
 @app.cell
 def _(mo):
     mo.md(r"""
-    Note that already in such a simple diagram many things are repeated, so this is by no means the simplest (in the sense of number of operations) way to construct addition.
+    The circuit is condensed into one shared flow rather than drawing a separate circuit for each output bit. Even in this compact form you can see why addition needs both sum paths and carry paths: O0 comes directly from the first XOR, O1 combines the next-bit sum with the carry from O0, and O2 collects the possible carry signals at the end.
     """)
     return
 
