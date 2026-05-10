@@ -47,8 +47,8 @@ def _():
             ) from exc
 
         helper_url = urljoin(
-            str(js.window.location.href),
-            "content/introduction_logic_viz.py",
+            str(js.location.href),
+            "../content/introduction_logic_viz.py",
         )
         code = open_url(helper_url).read()
         package = types.ModuleType("content")
