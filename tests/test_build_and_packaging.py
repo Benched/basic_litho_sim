@@ -117,6 +117,15 @@ def test_build_notebooks_script_exports_expected_targets() -> None:
         assert command in normalized, f"Missing export helper call in build_notebooks.bat: {command}"
 
 
+def test_introduction_notebook_can_load_helper_in_static_export() -> None:
+    source = (CONTENT_DIR / "notebook_introduction.py").read_text(encoding="utf-8")
+
+    assert "from pyodide.http import open_url" in source
+    assert '"content/introduction_logic_viz.py"' in source
+    assert "import matplotlib.pyplot" in source
+    assert "from matplotlib.path import Path" in source
+
+
 @pytest.mark.skipif(not MARIMO_AVAILABLE, reason="marimo is not installed")
 def test_docs_build_pipeline_smoke(
     tmp_path: Path,
